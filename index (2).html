@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>診所公平排崗</title>
+<style>
+:root{--blue:#2457a7;--light:#f4f7fb;--line:#d8e0ea;--green:#16803c;--red:#b42318}
+*{box-sizing:border-box}
+body{font-family:Arial,"Noto Sans TC",sans-serif;background:var(--light);color:#1f2937;margin:0}
+header{background:linear-gradient(135deg,#2457a7,#3673c8);color:#fff;padding:22px}
+header h2{margin:0 0 6px}
+main{max-width:1180px;margin:18px auto;padding:0 12px 40px}
+.box{background:#fff;border-radius:14px;padding:18px;margin:14px 0;box-shadow:0 3px 12px #00000010}
+.step{display:inline-flex;background:#eaf0ff;color:#2457a7;border-radius:20px;padding:5px 10px;font-weight:bold;font-size:13px}
+.hint{color:#64748b;font-size:14px;line-height:1.6}
+button{background:var(--blue);color:#fff;border:0;border-radius:9px;padding:10px 15px;margin:4px;cursor:pointer;font-size:15px}
+button:hover{filter:brightness(.96)}
+button.secondary{background:#eef3fb;color:#2457a7}
+button.danger{background:#fff1f0;color:var(--red)}
+input[type=file]{display:none}
+.upload{display:inline-block;background:#2457a7;color:#fff;padding:11px 16px;border-radius:9px;cursor:pointer}
+#preview{max-width:100%;max-height:360px;display:none;margin-top:14px;border:1px solid var(--line);border-radius:10px}
+.week{display:grid;grid-template-columns:repeat(7,minmax(150px,1fr));gap:10px;overflow:auto;padding-bottom:4px}
+.day{min-width:150px;border:1px solid var(--line);border-radius:12px;padding:10px;background:#fbfdff}
+.day h4{margin:0 0 8px;color:#2457a7}
+.shift{border-top:1px dashed #d7dee8;padding:8px 0}
+.shift:first-of-type{border-top:0}
+.shift-title{font-weight:bold;font-size:14px;margin-bottom:6px}
+.people{display:flex;flex-wrap:wrap;gap:5px}
+.person{display:inline-flex;align-items:center;border:1px solid #d2dbe8;background:#fff;border-radius:18px;padding:4px 7px;font-size:13px;cursor:pointer}
+.person input{margin:0 4px 0 0}
+.adminrow{display:flex;gap:5px;margin-top:7px;align-items:center}
+.adminrow select,.adminrow input{border:1px solid #cbd5e1;border-radius:7px;padding:7px;min-width:0}
+.adminrow select{width:82px}.adminrow input{width:100%}
+.admin-tag{font-size:12px;color:#b42318}
+.actions{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.scroll{overflow:auto}
+table{border-collapse:collapse;width:100%;min-width:650px}
+td,th{border:1px solid #cbd5e1;padding:9px;text-align:center}
+th{background:#eaf0ff}
+.notice{padding:10px;border-radius:9px;background:#f8fafc;margin-top:10px}
+details summary{cursor:pointer;font-weight:bold;color:#475569}
+@media(max-width:700px){header{padding:16px}.week{grid-template-columns:repeat(7,150px)}}
+</style>
+</head>
+<body>
+<header>
+<h2>🏥 診所公平自動排崗系統</h2>
+<div>圖片參考班表 → 快速勾選出勤／行政 → 一鍵公平排崗</div>
+</header>
+
+<main>
+<div class="box">
+<div class="step">STEP 1</div>
+<h3>📷 上傳月班表圖片（方便對照）</h3>
+<p class="hint">先把月班表圖片放進來，操作時可直接對照。目前這個版本尚未自動 OCR 辨識，所以不會把圖片內容自動填入；下一階段可以再加入。</p>
+<label class="upload">選擇班表圖片<input id="imgInput" type="file" accept="image/*"></label>
+<button class="secondary" onclick="togglePreview()">顯示／隱藏圖片</button>
+<img id="preview" alt="班表預覽">
+</div>
+
+<div class="box">
+<div class="step">STEP 2</div>
+<h3>👥 快速選擇每個診別可排人員</h3>
+<p class="hint">直接「勾選」當診上班的人，不需要輸入姓名。<b>稜禎可勾選上班，但僅用來判斷值班主管，不會被排到櫃檯、藥局或後場。</b>值班主管會依順位自動決定：稜禎 → 欣蓓 → 湞葶 → 佳怡 → 宜姗 → 博鈴 → 韋誠 → 佳愉 → 建凱 → 雅貞。行政工作人員不安排一般崗位。</p>
+<div class="week" id="days"></div>
+</div>
+
+<div class="box">
+<div class="step">STEP 3</div>
+<h3>📊 公平分配設定</h3>
+<div class="actions">
+<button onclick="run()">⚡ 自動公平排崗</button>
+<button class="secondary" onclick="print()">🖨️ 列印／存 PDF</button>
+<button class="secondary" onclick="clearWeek()">🧹 清空本週勾選</button>
+</div>
+<div id="msg" class="notice hint">請先勾選各診別上班人員。</div>
+
+<details style="margin-top:14px">
+<summary>⚙️ 歷史崗位次數（進階設定）</summary>
+<p class="hint">系統優先安排累積次數較少的人。可自行修改。</p>
+<div class="scroll"><table id="hist"></table></div>
+</details>
+</div>
+
+<div class="box">
+<div class="step">STEP 4</div>
+<h3>📋 本週崗位表</h3><p class="hint">值班主管會依預設順位自動產生，不影響原本的公平崗位分配。</p>
+<div class="scroll" id="out">尚未排班</div>
+</div>
+
+<div class="box">
+<h3>📈 本週統計</h3>
+<div class="scroll" id="stats">尚未排班</div>
+</div>
+</main>
+
+<script>
+const P=['欣蓓','湞葶','佳怡','宜姗','博鈴','韋誠','佳愉','建凱','雅貞'];
+const ALL_WORKERS=['稜禎','欣蓓','湞葶','佳怡','宜姗','博鈴','韋誠','佳愉','建凱','雅貞'];
+// 值班主管順位：稜禎不納入一般崗位，但若當診有上班可優先擔任值班主管
+const SUPERVISOR_PRIORITY=['稜禎','欣蓓','湞葶','佳怡','宜姗','博鈴','韋誠','佳愉','建凱','雅貞'];
+const D=['週一','週二','週三','週四','週五','週六','週日'];
+const S=['早診','午診','晚診'];
+const can={
+'欣蓓':['櫃檯','藥局','後場'],'湞葶':['櫃檯','藥局','後場'],
+'佳怡':['櫃檯','藥局','後場'],'宜姗':['櫃檯','藥局','後場'],
+'博鈴':['櫃檯','藥局','後場'],'韋誠':['櫃檯','藥局'],
+'佳愉':['櫃檯','藥局','後場'],'建凱':['櫃檯','藥局'],
+'雅貞':['藥局','後場']
+};
+let H=JSON.parse(localStorage.getItem('clinicH')||'{}');
+P.forEach(p=>H[p]??={'櫃檯':0,'藥局':0,'後場':0,'櫃檯＋藥局':0});
+let R=[];
+
+function init(){
+ document.getElementById('days').innerHTML=D.map((d,i)=>`
+ <div class="day"><h4>${d}</h4>
+ ${S.map((s,j)=>`
+  <div class="shift">
+   <div class="shift-title">${s} <span class="admin-tag" id="tag${i}_${j}"></span></div>
+   <div class="people">
+    ${ALL_WORKERS.map((p,k)=>`<label class="person"><input class="work" type="checkbox" id="w${i}_${j}_${k}">${p}${p==='稜禎'?'（僅主管）':''}</label>`).join('')}
+   </div>
+   <div class="adminrow">
+    <select id="ap${i}_${j}" onchange="updateAdminTag(${i},${j})">
+      <option value="">行政人員</option>${P.map(p=>`<option value="${p}">${p}</option>`).join('')}
+    </select>
+    <input id="at${i}_${j}" placeholder="行政事項，例如申報" oninput="updateAdminTag(${i},${j})">
+   </div>
+  </div>`).join('')}
+ </div>`).join('');
+ drawH();
+}
+
+function updateAdminTag(d,s){
+ const p=document.getElementById(`ap${d}_${s}`).value;
+ const t=document.getElementById(`at${d}_${s}`).value.trim();
+ document.getElementById(`tag${d}_${s}`).textContent=(p&&t)?`行政：${p}／${t}`:'';
+}
+
+function drawH(){
+ document.getElementById('hist').innerHTML='<tr><th>人員</th><th>櫃檯</th><th>藥局</th><th>後場</th><th>櫃檯＋藥局</th></tr>'+
+ P.map((p,i)=>`<tr><td>${p}</td>${['櫃檯','藥局','後場','櫃檯＋藥局'].map(r=>`<td><input style="width:65px" type="number" min="0" id="h${i}_${r}" value="${H[p][r]||0}"></td>`).join('')}</tr>`).join('');
+}
+
+function clearWeek(){
+ if(!confirm('確定清空本週所有勾選與行政事項？'))return;
+ document.querySelectorAll('.work').forEach(x=>x.checked=false);
+ document.querySelectorAll('[id^="ap"]').forEach(x=>x.value='');
+ document.querySelectorAll('[id^="at"]').forEach(x=>x.value='');
+ document.querySelectorAll('[id^="tag"]').forEach(x=>x.textContent='');
+ document.getElementById('out').innerHTML='尚未排班';
+ document.getElementById('stats').innerHTML='尚未排班';
+ document.getElementById('msg').textContent='已清空本週資料。';
+}
+
+function run(){
+ P.forEach((p,i)=>['櫃檯','藥局','後場','櫃檯＋藥局'].forEach(r=>{
+  H[p][r]=+document.getElementById(`h${i}_${r}`).value||0;
+ }));
+
+ R=[];let warn=[];
+ for(let d=0;d<7;d++)for(let s=0;s<3;s++){
+  let names=ALL_WORKERS.filter((p,k)=>document.getElementById(`w${d}_${s}_${k}`).checked);
+  // 依班表由上到下的順位，自動決定當診值班主管
+  const supervisor=SUPERVISOR_PRIORITY.find(p=>names.includes(p)) || '';
+  const ap=document.getElementById(`ap${d}_${s}`).value;
+  const at=document.getElementById(`at${d}_${s}`).value.trim();
+  const ad=(ap&&at)?[{p:ap,t:at}]:[];
+  let blocked=ad.map(x=>x.p);
+  let avail=names.filter(x=>x!=='稜禎'&&!blocked.includes(x));
+  let r={d,s,supervisor,ad,c:null,ph:null,b:null,combo:null};
+  const choose=(list,role)=>[...list].sort((a,b)=>{
+    let diff=H[a][role]-H[b][role];
+    return diff||a.localeCompare(b,'zh-Hant');
+  })[0];
+
+  if(avail.length>=3){
+   for(const [role,key] of [['櫃檯','c'],['藥局','ph'],['後場','b']]){
+    let used=[r.c,r.ph,r.b].filter(Boolean);
+    let list=avail.filter(p=>!used.includes(p)&&can[p].includes(role));
+    if(list.length){r[key]=choose(list,role);H[r[key]][role]++}
+    else warn.push(`${D[d]}${S[s]}：${role}無符合條件人員`);
+   }
+  }else if(avail.length===2){
+   let opts=[];
+   avail.forEach(c=>avail.forEach(b=>{
+    if(c!==b&&can[c].includes('櫃檯')&&can[c].includes('藥局')&&can[b].includes('後場')){
+      opts.push({c,b,score:H[c]['櫃檯＋藥局']+H[b]['後場']});
+    }
+   }));
+   opts.sort((x,y)=>x.score-y.score);
+   if(opts.length){
+    r.combo=opts[0].c;r.b=opts[0].b;
+    H[r.combo]['櫃檯＋藥局']++;H[r.b]['後場']++;
+   }else warn.push(`${D[d]}${S[s]}：兩人配置不符合限制，請手動安排`);
+  }else if(avail.length===1){
+   warn.push(`${D[d]}${S[s]}：只有1位可安排人員，請手動處理`);
+  }else if(names.length===0){
+   // 完全沒有勾選，略過不警告
+  }else{
+   warn.push(`${D[d]}${S[s]}：沒有可安排人員`);
+  }
+  R.push(r);
+ }
+
+ let html='<table><tr><th>日期</th><th>診別</th><th>值班主管</th><th>櫃檯</th><th>藥局</th><th>後場</th><th>行政工作</th></tr>';
+ R.filter(r=>r.c||r.ph||r.b||r.combo||r.ad.length).forEach(r=>{
+  html+=`<tr><td>${D[r.d]}</td><td>${S[r.s]}</td><td>${r.supervisor||'—'}</td><td>${r.combo||r.c||'—'}</td><td>${r.combo?'同櫃檯人員':r.ph||'—'}</td><td>${r.b||'—'}</td><td>${r.ad.map(x=>x.p+'：'+x.t).join('<br>')||'—'}</td></tr>`;
+ });
+ document.getElementById('out').innerHTML=html+'</table>';
+ document.getElementById('msg').innerHTML=warn.length?`<b style="color:#b42318">⚠️ ${warn.join('；')}</b>`:`<b style="color:#16803c">✅ 完成！已依限制與歷史次數進行公平分配。</b>`;
+
+ let C={};P.forEach(p=>C[p]={櫃檯:0,藥局:0,後場:0,'櫃檯＋藥局':0});
+ R.forEach(r=>{
+  if(r.combo){C[r.combo]['櫃檯＋藥局']++;if(r.b)C[r.b].後場++}
+  else{if(r.c)C[r.c].櫃檯++;if(r.ph)C[r.ph].藥局++;if(r.b)C[r.b].後場++}
+ });
+ document.getElementById('stats').innerHTML='<table><tr><th>人員</th><th>櫃檯</th><th>藥局</th><th>後場</th><th>櫃檯＋藥局</th><th>總數</th></tr>'+
+ P.map(p=>`<tr><td>${p}</td>${['櫃檯','藥局','後場','櫃檯＋藥局'].map(k=>`<td>${C[p][k]}</td>`).join('')}<td>${Object.values(C[p]).reduce((a,b)=>a+b,0)}</td></tr>`).join('')+'</table>';
+ localStorage.setItem('clinicH',JSON.stringify(H));
+ drawH();
+}
+
+document.getElementById('imgInput').addEventListener('change',e=>{
+ const file=e.target.files[0]; if(!file)return;
+ const img=document.getElementById('preview');
+ img.src=URL.createObjectURL(file);img.style.display='block';
+});
+function togglePreview(){
+ const img=document.getElementById('preview');
+ if(!img.src){alert('請先選擇班表圖片');return;}
+ img.style.display=(img.style.display==='none')?'block':'none';
+}
+init();
+</script>
+</body>
+</html>
