@@ -489,16 +489,22 @@ function parseSchedule(items,givenNames,isRed,isBlue){
 // 規則：黑字數字＝該診上班；休假標記＝不上班；
 //       紅字數字＝該診執行行政事項（事項名稱取該格的文字，文字寫在哪一列都算）；
 //       沒有紅字數字時，文字（如黑字福科、大里）依其所在列視為該診的其他事項
-function classifyDay(rows,leaveSet,workSet,supportSet){
+function classifyDay(rows,leaveSet,workSet,supportSet,isSupportPerson){
  const sess=[0,1,2].map(()=>({works:false,admin:[]}));
  const redSess=new Set(),labels=[];
  (rows||[]).forEach((toks,j)=>{
   for(const k of toks||[]){
    const t=String(k.s).trim();if(!t)continue;
    if(leaveSet.has(t))continue;
-   // 支援其他院所（藍色格子／福科、大里等文字）：直接略過，不上班也不算行政
-   if(!/^\d+$/.test(t)&&(k.blue||(supportSet&&supportSet.has(t)))){sess.sup=(sess.sup||0)+1;continue}
-   if(/^\d+$/.test(t)){
+   const isNum=/^\d+$/.test(t);
+   // 藍色格子：
+   //  ‧正式人員 → 代表去支援其他院所，整格（含數字）直接略過，不上班也不算行政
+   //  ‧支援人力 → 藍色數字才是「來支援上班」，藍色文字仍略過
+   // 另外「福科、大里」等指定文字（辨識設定）也一律略過
+   if((k.blue&&(!isSupportPerson||!isNum))||(!isNum&&supportSet&&supportSet.has(t))){
+    sess.sup=(sess.sup||0)+1;(sess.supRows=sess.supRows||[]).push(j);continue;
+   }
+   if(isNum){
     if(+t>0){if(k.red)redSess.add(j);else sess[j].works=true}
     continue;
    }
@@ -817,6 +823,7 @@ function applyWeek(){
  resetWeekUI();
  R=[];
  let nWork=0,nAdmin=0,nSup=0;
+ const skip=[];   // 本週被略過的「正式人員藍色格」（去支援其他院所）
  for(let i=0;i<7;i++){
   const dt=new Date(y,m-1,start+i);
   DATES[i]=`${dt.getMonth()+1}/${dt.getDate()}`;
@@ -827,8 +834,9 @@ function applyWeek(){
   ALL_WORKERS.forEach((g,k)=>{
    const rows=SCHED.cells[g]?.[day];
    if(!rows)return;
-   const sess=classifyDay(rows,leave,work,support);
+   const sess=classifyDay(rows,leave,work,support,isSup(g));
    nSup+=sess.sup||0;
+   if(!isSup(g))(sess.supRows||[]).forEach(j=>skip.push(`${g} ${DATES[i]}${S[j].replace('診','')}`));
    for(let j=0;j<3;j++){
     if(sess[j].admin.length){sess[j].admin.forEach(t=>adm[j].push({p:g,t}));nAdmin+=sess[j].admin.length}
     else if(sess[j].works){document.getElementById(`w${i}_${j}_${k}`).checked=true;nWork++}
@@ -845,7 +853,7 @@ function applyWeek(){
  // 整月統計：偵測到的非崗位文字
  const tally={};
  for(const g in SCHED.cells)for(const d in SCHED.cells[g]){
-  classifyDay(SCHED.cells[g][d],leave,work,support).forEach(se=>se.admin.forEach(t=>tally[t]=(tally[t]||0)+1));
+  classifyDay(SCHED.cells[g][d],leave,work,support,isSup(g)).forEach(se=>se.admin.forEach(t=>tally[t]=(tally[t]||0)+1));
  }
  const words=Object.entries(tally).sort((a,b)=>b[1]-a[1]).map(([t,n])=>`${esc(t)}×${n}`).join('、')||'無';
  const missing=ALL_WORKERS.filter(p=>!SCHED.persons.includes(p));
@@ -855,7 +863,7 @@ function applyWeek(){
  if(!SCHED.colorOk)warn.push('無法偵測紅字，行政事項改依文字所在列判斷，請務必對照班表確認');
  else if(!SCHED.redCount)warn.push('整份班表沒有偵測到任何紅字，若班表有紅字請確認 PDF 是否為原檔');
  impMsg(`${warn.length?`<b style="color:#b42318">⚠️ ${warn.join('；')}</b><br>`:''}`+
-  `<b style="color:#16803c">✅ 已匯入 ${SCHED.year||y-1911}年${m}月班表</b>（日期 ${SCHED.N} 欄、人員 ${SCHED.persons.length} 位${SUPLIST.length?`，含支援人力：${SUPLIST.map(x=>esc(x.name)+(x.from?`（${esc(x.from)}）`:'')).join('、')}`:''}），已帶入 ${DATES[0]}～${DATES[6]}：上班 ${nWork} 診次、行政事項 ${nAdmin} 筆（全月偵測到紅字 ${SCHED.redCount||0} 處）；支援其他院所（藍色格／福科、大里）已略過 ${nSup} 筆。<br>`+
+  `<b style="color:#16803c">✅ 已匯入 ${SCHED.year||y-1911}年${m}月班表</b>（日期 ${SCHED.N} 欄、人員 ${SCHED.persons.length} 位${SUPLIST.length?`，含支援人力：${SUPLIST.map(x=>esc(x.name)+(x.from?`（${esc(x.from)}）`:'')).join('、')}`:''}），已帶入 ${DATES[0]}～${DATES[6]}：上班 ${nWork} 診次、行政事項 ${nAdmin} 筆（全月偵測到紅字 ${SCHED.redCount||0} 處）；正式人員的藍色格（去支援其他院所）已略過 ${nSup} 筆${skip.length?`：${skip.map(esc).join('、')}`:''}，不列入排班。<br>`+
   `<span>整月偵測到的行政／其他文字：${words}。若有文字其實是正常上班或休假，可到「辨識設定」調整。請對照班表確認後再排崗。</span>`);
  renderSheet();
 }
@@ -1379,12 +1387,109 @@ window.addEventListener('afterprint',unfitPrint);
 /* ---------- 排班邏輯 ---------- */
 // 三個人、三個崗位：窮舉所有可行組合，選歷史次數總和最低者
 // 這樣可確保「櫃檯、藥局、後場」優先補滿，不會因為先排櫃檯而讓受限同仁（如雅貞）無法就位
+// 輪替：同一人上一診排過的崗位，這一診再排同一崗位時加罰分（約 2.5 次歷史差距），
+// 在歷史次數相同時讓所有人（含支援人力）自然輪流，不會連續卡在同一崗位
+let LAST={};
+const REPEAT_PEN=2.5;
+const pen=(p,pos)=>(LAST[p]&&LAST[p].includes(pos))?REPEAT_PEN:0;
+// 支援人力「崗位均衡」：同一位支援人員在自己可擔任的崗位之間，次數要盡量接近。
+// 若某崗位次數已比自己最少的崗位多，就加重罰分（每多 1 次罰 WSUP 分），
+// 這樣不會出現「櫃檯1、藥局0、後場9」這種一直被排在同一崗位的情況。
+const WSUP=6;
+function supPen(p,pos){
+ if(!isSup(p))return 0;
+ const ok=(can[p]||[]);
+ if(!ok.includes(pos))return 0;
+ const B=x=>(H[p][x]||0)+(x!=='後場'?(H[p]['櫃檯＋藥局']||0):0);   // 兼任櫃檯＋藥局算櫃檯與藥局各一次
+ const mn=Math.min(...ok.map(B));
+ return WSUP*(B(pos)-mn);
+}
+function noteLast(r){
+ [['c','櫃檯'],['ph','藥局'],['b','後場']].forEach(([k,pos])=>{if(r[k])LAST[r[k]]=[pos]});
+ if(r.combo)LAST[r.combo]=['櫃檯','藥局'];
+}
+
+/* ---------- 整週回頭微調（避免先排的診次把後面受限診次逼到同一崗位） ---------- */
+const slotPos=(r,p)=>{
+ if(r.combo===p)return ['櫃檯','藥局'];
+ const o=[];if(r.c===p)o.push('櫃檯');if(r.ph===p)o.push('藥局');if(r.b===p)o.push('後場');
+ return o;
+};
+function neighPen(idx,p,posList){
+ let v=0;
+ for(let i=idx-1;i>=0;i--){const q=slotPos(R[i],p);if(q.length){if(posList.some(x=>q.includes(x)))v+=REPEAT_PEN;break}}
+ for(let i=idx+1;i<R.length;i++){const q=slotPos(R[i],p);if(q.length){if(posList.some(x=>q.includes(x)))v+=REPEAT_PEN;break}}
+ return v;
+}
+function unplace(r){
+ if(r.combo)H[r.combo]['櫃檯＋藥局']--;
+ else{if(r.c)H[r.c]['櫃檯']--;if(r.ph)H[r.ph]['藥局']--}
+ if(r.b)H[r.b]['後場']--;
+}
+function place(r){
+ if(r.combo)H[r.combo]['櫃檯＋藥局']++;
+ else{if(r.c)H[r.c]['櫃檯']++;if(r.ph)H[r.ph]['藥局']++}
+ if(r.b)H[r.b]['後場']++;
+}
+function slotOptions(r){
+ const a=r.avail||[],o=[];
+ if(a.length>=3){
+  for(const c of a)for(const ph of a)for(const b of a){
+   if(c===ph||c===b||ph===b)continue;
+   if(!can[c].includes('櫃檯')||!can[ph].includes('藥局')||!can[b].includes('後場'))continue;
+   o.push({c,ph,b,combo:null});
+  }
+ }else if(a.length===2){
+  for(const c of a)for(const b of a){
+   if(c===b)continue;
+   if(can[c].includes('櫃檯')&&can[c].includes('藥局')&&can[b].includes('後場'))o.push({c:null,ph:null,b,combo:c});
+  }
+ }
+ return o;
+}
+function optCost(o,idx){
+ if(o.combo){
+  return H[o.combo]['櫃檯＋藥局']+H[o.b]['後場']+supPen(o.combo,'櫃檯')+supPen(o.combo,'藥局')+supPen(o.b,'後場')
+   +neighPen(idx,o.combo,['櫃檯','藥局'])+neighPen(idx,o.b,['後場']);
+ }
+ return H[o.c]['櫃檯']+H[o.ph]['藥局']+H[o.b]['後場']
+  +supPen(o.c,'櫃檯')+supPen(o.ph,'藥局')+supPen(o.b,'後場')
+  +neighPen(idx,o.c,['櫃檯'])+neighPen(idx,o.ph,['藥局'])+neighPen(idx,o.b,['後場']);
+}
+const optKey=o=>o.combo?`C|${o.combo}|${o.b}`:`${o.c}|${o.ph}|${o.b}`;
+function refineWeek(){
+ for(let round=0;round<40;round++){
+  let changed=false;
+  R.forEach((r,idx)=>{
+   if(!r.opt)return;
+   const opts=slotOptions(r);
+   if(opts.length<2)return;
+   unplace(r);                                   // 先拿掉這診，用「整週其他診次」的累計來重新評估
+   const curKey=optKey(r);
+   let best=null,curCost=null;
+   for(const o of opts){
+    o.cost=optCost(o,idx);
+    if(optKey(o)===curKey)curCost=o.cost;
+    if(!best||o.cost<best.cost)best=o;
+   }
+   if(curCost!==null&&best.cost>=curCost-1e-9)best=null;   // 沒有更好就維持原排法
+   if(best){r.c=best.c;r.ph=best.ph;r.b=best.b;r.combo=best.combo;changed=true}
+   place(r);
+  });
+  if(!changed)break;
+ }
+ R.forEach(r=>{
+  const placed=new Set([r.c,r.ph,r.b,r.combo].filter(Boolean));
+  r.extras=(r.avail||[]).filter(x=>!placed.has(x));
+ });
+}
+
 function assignThree(avail){
  let best=null;
  for(const c of avail)for(const ph of avail)for(const b of avail){
   if(c===ph||c===b||ph===b)continue;
   if(!can[c].includes('櫃檯')||!can[ph].includes('藥局')||!can[b].includes('後場'))continue;
-  const score=H[c]['櫃檯']+H[ph]['藥局']+H[b]['後場'];
+  const score=H[c]['櫃檯']+H[ph]['藥局']+H[b]['後場']+pen(c,'櫃檯')+pen(ph,'藥局')+pen(b,'後場')+supPen(c,'櫃檯')+supPen(ph,'藥局')+supPen(b,'後場');
   if(!best||score<best.score)best={c,ph,b,score};
  }
  return best;
@@ -1403,7 +1508,7 @@ function assignPartial(avail){
   for(const p of avail){
    if(used.has(p)||!can[p]||!can[p].includes(pos[i]))continue;
    used.add(p);cur[pos[i]]=p;
-   rec(i+1,filled+1,score+H[p][pos[i]]);
+   rec(i+1,filled+1,score+H[p][pos[i]]+pen(p,pos[i]));
    used.delete(p);delete cur[pos[i]];
   }
   rec(i+1,filled,score); // 此崗位留空
@@ -1430,7 +1535,7 @@ function run(){
  subtractCommit(WK);                 // 同一週重排：先扣掉這週上次已計入的次數，避免重複累加
  const BASEH=cloneJ(H);
  EDITS={};ROWS=[0,0,0];SNAPBASE=null;
- R=[];let warn=[],info=[];
+ R=[];LAST={};let warn=[],info=[];
  for(let d=0;d<7;d++)for(let s=0;s<3;s++){
   let names=ALL_WORKERS.filter((p,k)=>document.getElementById(`w${d}_${s}_${k}`).checked);
   const ad=getAdmins(d,s);                     // 該診所有行政事項（可多人、多項）
@@ -1439,12 +1544,12 @@ function run(){
   const supervisor=SUPERVISOR_PRIORITY.find(p=>names.includes(p)&&!blocked.includes(p)) || '';
   const avail=names.filter(x=>x!=='稜禎'&&!blocked.includes(x));
   const label=`${dayLabel(d)}${S[s]}`;
-  let r={d,s,supervisor,ad,c:null,ph:null,b:null,combo:null,extras:[]};
+  let r={d,s,supervisor,ad,c:null,ph:null,b:null,combo:null,extras:[],avail:avail.slice(),opt:false};
 
   if(avail.length>=3){
    const best=assignThree(avail);
    if(best){
-    r.c=best.c;r.ph=best.ph;r.b=best.b;
+    r.c=best.c;r.ph=best.ph;r.b=best.b;r.opt=true;
     H[best.c]['櫃檯']++;H[best.ph]['藥局']++;H[best.b]['後場']++;
    }else{
     fillPartial(r,avail);
@@ -1454,12 +1559,12 @@ function run(){
    let opts=[];
    avail.forEach(c=>avail.forEach(b=>{
     if(c!==b&&can[c].includes('櫃檯')&&can[c].includes('藥局')&&can[b].includes('後場')){
-      opts.push({c,b,score:H[c]['櫃檯＋藥局']+H[b]['後場']});
+      opts.push({c,b,score:H[c]['櫃檯＋藥局']+H[b]['後場']+Math.max(pen(c,'櫃檯'),pen(c,'藥局'))+pen(b,'後場')+supPen(c,'櫃檯')+supPen(c,'藥局')+supPen(b,'後場')});
     }
    }));
    opts.sort((x,y)=>x.score-y.score);
    if(opts.length){
-    r.combo=opts[0].c;r.b=opts[0].b;
+    r.combo=opts[0].c;r.b=opts[0].b;r.opt=true;
     H[r.combo]['櫃檯＋藥局']++;H[r.b]['後場']++;
    }else{
     fillPartial(r,avail);
@@ -1473,16 +1578,22 @@ function run(){
   }
   // 任何上班人員都不能憑空消失：沒有排進櫃／藥／後的人，一律列在「備」
   const placed=new Set([r.c,r.ph,r.b,r.combo].filter(Boolean));
+  noteLast(r);
   r.extras=avail.filter(x=>!placed.has(x));
-  if(r.extras.length)info.push(`${label}：${r.extras.join('、')}`);
   // 完全沒有勾選上班人員則略過不警告
   R.push(r);
  }
 
+ refineWeek();
+ R.forEach(r=>{if(r.extras&&r.extras.length)info.push(`${dayLabel(r.d)}${S[r.s]}：${r.extras.join('、')}`)});
  renderSheet();
  document.getElementById('msg').innerHTML=warn.length?`<b style="color:#b42318">⚠️ ${warn.join('；')}</b>`:`<b style="color:#16803c">✅ 完成！行政人員已排除，其餘人員已依限制與歷史次數優先補滿三個崗位。</b>`;
  if(info.length)document.getElementById('msg').innerHTML+=`<div style="margin-top:6px">ℹ️ 以下診次上班人數超過三個崗位，多出的人員已列在崗位表「備」列：${info.join('；')}</div>`;
 
+ if(SUPLIST.length){
+  const C=countFromSheet();
+  document.getElementById('msg').innerHTML+=`<div style="margin-top:6px">🤝 支援人力本週崗位分佈：${SUPLIST.map(x=>{const c=C[x.name]||{};const a=(c['櫃檯']||0)+(c['櫃檯＋藥局']||0),b=(c['藥局']||0)+(c['櫃檯＋藥局']||0),k=c['後場']||0;return `${esc(x.name)}（櫃${a}／藥${b}／後${k}）`}).join('、')}</div>`;
+ }
  renderStats();
  commitHistory(WK,BASEH,countFromSheet());
 }
