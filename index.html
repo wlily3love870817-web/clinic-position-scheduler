@@ -159,7 +159,7 @@ table.sheet{table-layout:fixed;min-width:960px;font-size:14px;background:#fff}
 <div class="box">
 <div class="step">STEP 1</div>
 <h3>📄 匯入月班表 PDF（自動辨識）</h3>
-<p class="hint">選擇月班表 PDF，系統會讀取上半部的班表：橫軸為日期、縱軸為人員，每人三列依序代表 <b>早診(1)／午診(2)／晚診(3)</b>。<b>黑字數字＝該診上班</b>；<b>紅字數字＝該診執行行政事項</b>（事項名稱取同格的文字，如週班、績效、會議），例如佳怡 11/9 的「2」是紅字，就是午診做週班；<b>例、休、特、預</b>＝休假／不上班；沒有紅字數字、只有黑字文字（如福科、大里）時，依文字所在列視為該診外出／其他事項。<b>藍色格子（如福科、大里＝支援其他院所）會直接略過，不會出現在週班表上。</b>有行政事項的同仁該診不排入櫃檯、藥局、後場。辨識在你的瀏覽器內完成，檔案不會上傳。</p>
+<p class="hint">選擇月班表 PDF，系統會讀取上半部的班表：橫軸為日期、縱軸為人員，每人三列依序代表 <b>早診(1)／午診(2)／晚診(3)</b>。<b>黑字數字＝該診上班</b>；<b>紅字數字＝該診執行行政事項</b>（事項名稱取同格的文字，如週班、績效、會議），例如佳怡 11/9 的「2」是紅字，就是午診做週班；<b>例、休、特、預</b>＝休假／不上班；沒有紅字數字、只有黑字文字（如福科、大里）時，依文字所在列視為該診外出／其他事項。<b>正式人員列中的藍色格子（如福科、大里＝去支援其他院所）會直接略過，不會出現在週班表上。</b>另外，班表下方以藍字標示的<b>其他院所支援人力</b>（如大里來的陳宥芯），其藍色格子內的數字＝該診來支援上班，會自動加入人員清單，一起排入櫃檯、藥局、後場。有行政事項的同仁該診不排入櫃檯、藥局、後場。辨識在你的瀏覽器內完成，檔案不會上傳。</p>
 <label class="upload">選擇月班表 PDF<input id="pdfInput" type="file" accept="application/pdf"></label>
 <div class="imp-grid">
  <label>民國年 <input id="impYear" type="number" min="100" max="2200" onchange="rebuildWeeks()"></label>
@@ -175,6 +175,7 @@ table.sheet{table-layout:fixed;min-width:960px;font-size:14px;background:#fff}
   <div class="hint">以逗號分隔。休假標記的文字不排入任何崗位（班表上的「預」都出現在例休日，預設視為休假）；「視為一般上班」的文字會被當成正常出勤、可排入崗位；其他文字視為行政／其他事項。</div>
  </div>
 </details>
+<div id="supPanel"></div>
 <div id="impMsg" class="notice hint">尚未匯入。匯入後會自動勾選下方各診別的上班人員與行政事項，仍可手動修改。切換「排班週別」會重新帶入該週資料（手動修改會被覆蓋）。</div>
 </div>
 
@@ -289,6 +290,7 @@ const P=['欣蓓','湞葶','佳怡','宜姗','博鈴','韋誠','佳愉','建凱'
 const ALL_WORKERS=['稜禎','欣蓓','湞葶','佳怡','宜姗','博鈴','韋誠','佳愉','建凱','雅貞'];
 // 值班主管順位：稜禎不納入一般崗位，但若當診有上班可優先擔任值班主管
 const SUPERVISOR_PRIORITY=['稜禎','欣蓓','湞葶','佳怡','宜姗','博鈴','韋誠','佳愉','建凱','雅貞'];
+const BASE_N=ALL_WORKERS.length,BASE_P=P.length;   // 正式人員人數（支援人力會動態附加在後面）
 const D=['週一','週二','週三','週四','週五','週六','週日'];
 const S=['早診','午診','晚診'];
 const can={
@@ -430,6 +432,34 @@ function parseSchedule(items,givenNames,isRed,isBlue){
  const dy=median(persons.slice(1).map((p,i)=>persons[i].y-p.y))/3;
  if(!(dy>0))return {error:'無法判斷列高'};
 
+ // 2b. 支援人力：緊接在正式人員下方、每人三列的區塊（姓名在中間列，多為藍字，左側標示所屬院所）
+ const support=[];
+ {
+  const CJK=/^[\u4e00-\u9fff]{2,4}$/;
+  const LABEL=/^(員編|姓名|到職日|職稱|支援|店長|幹部|上午|下午|晚上|人次|配比|時數|診表|班別|本月|時間|排班|簽名|晚班|週日)$/;
+  const lowest=persons[persons.length-1].y;
+  const statYs=left.filter(t=>/^(上午|下午|晚上)$/.test(t.s)&&t.y<lowest-dy).map(t=>t.y);
+  const floorY=statYs.length?Math.max(...statYs)+dy*0.5:-Infinity;
+  for(let k=1;k<=8;k++){
+   const ry=lowest-k*3*dy;
+   if(ry<=floorY)break;
+   const cand=left.filter(t=>{
+    const n=normName(t.s);
+    return Math.abs(t.y-ry)<dy*0.6&&CJK.test(n)&&!LABEL.test(n)&&!givenNames.some(g=>n.includes(normName(g)));
+   }).sort((a,b)=>a.x-b.x);
+   if(!cand.length)continue;
+   const nm=normName(cand[0].s),nameY=cand[0].y;
+   const fromT=left.filter(t=>{
+    const n=normName(t.s);
+    return Math.abs(t.y-(nameY+dy))<dy*0.6&&CJK.test(n)&&!LABEL.test(n);
+   }).sort((a,b)=>a.x-b.x)[0];
+   let key=nm.length>=3?nm.slice(-2):nm;
+   if(givenNames.includes(key)||support.some(x=>x.name===key))key=nm;
+   support.push({name:key,full:nm,from:fromT?normName(fromT.s):'',y:nameY});
+  }
+ }
+ support.forEach(x=>persons.push({g:x.name,y:x.y}));
+
  // 3. 每個文字塊歸入「人員／日期／第幾列(早午晚)」
  const cells={};
  let redCount=0,blueCount=0;
@@ -452,7 +482,7 @@ function parseSchedule(items,givenNames,isRed,isBlue){
   if(blue)blueCount++;
   c2[br].push({s:t.s,red,blue});
  }
- return {year:my?+my[1]:null,month:my?+my[2]:null,N:cols.length,persons:persons.map(p=>p.g),cells,redCount,blueCount,colorOk:!!isRed};
+ return {year:my?+my[1]:null,month:my?+my[2]:null,N:cols.length,persons:persons.map(p=>p.g),cells,redCount,blueCount,colorOk:!!isRed,support:support.map(({name,full,from})=>({name,full,from}))};
 }
 
 // 一天（三列）內容分類，回傳早/午/晚三診各自狀態 {works,admin:[事項]}
@@ -574,6 +604,54 @@ function updateOverview(){
  }
 }
 
+/* ---------- 支援人力（其他院所支援，班表下方藍字） ---------- */
+let SUPLIST=[];   // [{name:顯示名, full:全名, from:所屬院所}]
+const isSup=n=>SUPLIST.some(x=>x.name===n);
+function workChips(i,j){
+ return ALL_WORKERS.map((p,k)=>`<label class="chip"><input class="work" type="checkbox" id="w${i}_${j}_${k}" onchange="updateOverview()"><span>${p}${p==='稜禎'?'<em>僅主管</em>':isSup(p)?'<em>支援</em>':''}</span></label>`).join('');
+}
+function keyChips(i,j){
+ return ALL_WORKERS.slice(0,BASE_N).map((p,k)=>`<label class="chip key"><input class="keyck" type="checkbox" id="k${i}_${j}_${k}" onchange="refreshSheet()"><span>${p}</span></label>`).join('');
+}
+function rebuildPeople(){
+ for(let i=0;i<7;i++)for(let j=0;j<3;j++){
+  const wc=document.getElementById(`wc${i}_${j}`);if(wc)wc.innerHTML=workChips(i,j);
+  const kc=document.getElementById(`kc${i}_${j}`);if(kc)kc.innerHTML=keyChips(i,j);
+ }
+ updateOverview();
+}
+// 套用支援人力名單：加入人員清單、公平歷史次數與可擔任崗位
+function setSupport(list){
+ list=(list||[]).map(x=>({name:x.name,full:x.full||x.name,from:x.from||''}));
+ const same=JSON.stringify(list.map(x=>x.name))===JSON.stringify(SUPLIST.map(x=>x.name));
+ SUPLIST=list;
+ ALL_WORKERS.length=BASE_N;P.length=BASE_P;
+ const saved=readLS('clinicSupportCan','{}');
+ SUPLIST.forEach(x=>{
+  if(!ALL_WORKERS.includes(x.name)){ALL_WORKERS.push(x.name);P.push(x.name)}
+  H[x.name]??={'櫃檯':0,'藥局':0,'後場':0,'櫃檯＋藥局':0};
+  HK.forEach(k=>{if(H[x.name][k]===undefined)H[x.name][k]=0});
+  can[x.name]=Array.isArray(saved[x.name])?saved[x.name]:['櫃檯','藥局','後場'];
+ });
+ if(!same)rebuildPeople();
+ drawH();renderSupPanel();
+}
+function setSupCan(el,pos){
+ const n=el.dataset.n;
+ const a=(can[n]||[]).filter(x=>x!==pos);
+ if(el.checked)a.push(pos);
+ can[n]=['櫃檯','藥局','後場'].filter(x=>a.includes(x));
+ const saved=readLS('clinicSupportCan','{}');saved[n]=can[n];writeLS('clinicSupportCan',saved);
+}
+function renderSupPanel(){
+ const el=document.getElementById('supPanel');if(!el)return;
+ if(!SUPLIST.length){el.innerHTML='';return}
+ el.innerHTML='<div class="notice" style="background:#eef6ff;border:1px solid #bfd7f3"><b>🤝 支援人力</b><span class="hint">（班表下方藍字、其他院所支援；支援班別在其所在列以藍色格子標示，數字＝該診上班，會和正式人員一起排入櫃檯、藥局、後場）</span>'+
+  SUPLIST.map(x=>`<div style="margin-top:8px"><b>${esc(x.name)}</b> <span class="hint">${esc(x.full)}${x.from?`・${esc(x.from)}支援`:''}　可擔任：</span>`+
+   ['櫃檯','藥局','後場'].map(pos=>`<label style="margin-right:12px;font-size:14px;cursor:pointer"><input type="checkbox" data-n="${esc(x.name)}" ${(can[x.name]||[]).includes(pos)?'checked':''} onchange="setSupCan(this,'${pos}')"> ${pos}</label>`).join('')+'</div>').join('')+
+  '<div class="hint" style="margin-top:6px">勾選可調整每位支援人員能被排入的崗位（修改後下次「自動公平排崗」生效）。</div></div>';
+}
+
 function init(){
  document.getElementById('dayTabs').innerHTML=D.map((d,i)=>`<button type="button" class="daytab" id="tab${i}" onclick="showDay(${i})"><span class="dt-name" id="dh${i}">${d}</span><span class="dt-cnt" id="cnt${i}"></span></button>`).join('');
  document.getElementById('days').innerHTML=D.map((d,i)=>`
@@ -589,10 +667,8 @@ function init(){
      <div class="card-title"><span>${['🌅','☀️','🌙'][j]} ${s}</span><span class="admin-tag" id="tag${i}_${j}"></span><span class="status none" id="st${i}_${j}">未排人</span></div>
      <div class="docrow"><span>醫師</span><input class="doc" id="doc${i}_${j}" value="${DOC_DEFAULT[i][j][0]}" oninput="refreshSheet()"><select id="dc${i}_${j}" onchange="refreshSheet()">${colorOptions(DOC_DEFAULT[i][j][1])}</select></div>
      <div class="sec-label">上班人員 <small>點選姓名切換</small><button type="button" class="mini secondary" onclick="clearShift(${i},${j})">清除</button></div>
-     <div class="chips">
-      ${ALL_WORKERS.map((p,k)=>`<label class="chip"><input class="work" type="checkbox" id="w${i}_${j}_${k}" onchange="updateOverview()"><span>${p}${p==='稜禎'?'<em>僅主管</em>':''}</span></label>`).join('')}
-     </div>
-     ${j!==1?`<div class="keywrap"><div class="sec-label">🔑 鑰匙 <small>勾選持鑰匙人員</small></div><div class="chips">${ALL_WORKERS.map((p,k)=>`<label class="chip key"><input class="keyck" type="checkbox" id="k${i}_${j}_${k}" onchange="refreshSheet()"><span>${p}</span></label>`).join('')}</div></div>`:''}
+     <div class="chips" id="wc${i}_${j}">${workChips(i,j)}</div>
+     ${j!==1?`<div class="keywrap"><div class="sec-label">🔑 鑰匙 <small>勾選持鑰匙人員</small></div><div class="chips" id="kc${i}_${j}">${keyChips(i,j)}</div></div>`:''}
      <div class="admin-wrap">
       <div class="admin-label">📌 行政事項（紅字）</div>
       <div class="admin-rows" id="adm${i}_${j}">${adminRowHTML()}</div>
@@ -693,6 +769,7 @@ async function importPDF(file){
   }
   if(!best){impMsg(`<b style="color:#b42318">無法辨識此 PDF：${esc(lastErr||'找不到班表')}。</b>請確認是班表原檔（非掃描／拍照），或改用手動勾選。`);return}
   SCHED=best;
+  setSupport(best.support||[]);
   if(best.year)document.getElementById('impYear').value=best.year;
   if(best.month)document.getElementById('impMonth').value=best.month;
   if(!best.year||!best.month)impMsg('<b style="color:#b42318">找不到年月，請在上方填入民國年與月份。</b>');
@@ -778,7 +855,7 @@ function applyWeek(){
  if(!SCHED.colorOk)warn.push('無法偵測紅字，行政事項改依文字所在列判斷，請務必對照班表確認');
  else if(!SCHED.redCount)warn.push('整份班表沒有偵測到任何紅字，若班表有紅字請確認 PDF 是否為原檔');
  impMsg(`${warn.length?`<b style="color:#b42318">⚠️ ${warn.join('；')}</b><br>`:''}`+
-  `<b style="color:#16803c">✅ 已匯入 ${SCHED.year||y-1911}年${m}月班表</b>（日期 ${SCHED.N} 欄、人員 ${SCHED.persons.length} 位），已帶入 ${DATES[0]}～${DATES[6]}：上班 ${nWork} 診次、行政事項 ${nAdmin} 筆（全月偵測到紅字 ${SCHED.redCount||0} 處）；支援其他院所（藍色格／福科、大里）已略過 ${nSup} 筆。<br>`+
+  `<b style="color:#16803c">✅ 已匯入 ${SCHED.year||y-1911}年${m}月班表</b>（日期 ${SCHED.N} 欄、人員 ${SCHED.persons.length} 位${SUPLIST.length?`，含支援人力：${SUPLIST.map(x=>esc(x.name)+(x.from?`（${esc(x.from)}）`:'')).join('、')}`:''}），已帶入 ${DATES[0]}～${DATES[6]}：上班 ${nWork} 診次、行政事項 ${nAdmin} 筆（全月偵測到紅字 ${SCHED.redCount||0} 處）；支援其他院所（藍色格／福科、大里）已略過 ${nSup} 筆。<br>`+
   `<span>整月偵測到的行政／其他文字：${words}。若有文字其實是正常上班或休假，可到「辨識設定」調整。請對照班表確認後再排崗。</span>`);
  renderSheet();
 }
@@ -927,7 +1004,7 @@ function snapshot(auto){
  days.forEach(d=>[0,1,2].forEach(s=>{docs[`${d}_${s}`]=[gv(`doc${d}_${s}`),gv(`dc${d}_${s}`)]}));
  const info={imp:days.map(i=>gv('dayImp'+i)),nt:days.map(i=>gv('dayNt'+i)),all:gv('noteAll'),todo:gv('weekTodo'),note:gv('weekNote')};
  const base=[0,1,2].map(s=>days.map(d=>baseRows(s,d).map(e=>({names:e.names,t:e.t,ex:!!e.ex}))));
- return cloneJ({v:1,auto:!!auto,key:weekKey(),dates:DATES,savedAt:Date.now(),R,EDITS,NOTES,ROWS,base,keys,docs,info});
+ return cloneJ({v:1,auto:!!auto,key:weekKey(),dates:DATES,savedAt:Date.now(),R,EDITS,NOTES,ROWS,base,keys,docs,info,support:SUPLIST});
 }
 function storeDraft(key,snap){
  DRAFTS[key]=snap;
@@ -1207,6 +1284,7 @@ function applySnapshot(sn,label){
  if((R.length||hasManual())&&!confirm('載入暫存會取代目前畫面上的崗位表，確定嗎？'))return;
  DATES=(sn.dates||Array(7).fill(null)).slice();
  for(let i=0;i<7;i++){const e=document.getElementById('dh'+i);if(e)e.textContent=dayLabel(i)}
+ if(Array.isArray(sn.support)&&sn.support.length)setSupport(sn.support);   // 還原支援人力名單（會重建人員選項）
  R=sn.R;EDITS=sn.EDITS||{};NOTES=sn.NOTES||{};ROWS=sn.ROWS||[0,0,0];SNAPBASE=sn.base||null;
  document.querySelectorAll('.keyck').forEach(x=>x.checked=false);
  (sn.keys||[]).forEach(id=>{const e=document.getElementById(id);if(e)e.checked=true});
