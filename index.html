@@ -18,11 +18,18 @@ button{background:var(--blue);color:#fff;border:0;border-radius:9px;padding:10px
 button:hover{filter:brightness(.96)}
 button.secondary{background:#eef3fb;color:#2457a7}
 button.danger{background:#fff1f0;color:var(--red)}
+button.mini{padding:5px 9px;margin:0;font-size:13px;border-radius:7px}
 input[type=file]{display:none}
 .upload{display:inline-block;background:#2457a7;color:#fff;padding:11px 16px;border-radius:9px;cursor:pointer}
 #preview{max-width:100%;max-height:360px;display:none;margin-top:14px;border:1px solid var(--line);border-radius:10px}
-.week{display:grid;grid-template-columns:repeat(7,minmax(150px,1fr));gap:10px;overflow:auto;padding-bottom:4px}
-.day{min-width:150px;border:1px solid var(--line);border-radius:12px;padding:10px;background:#fbfdff}
+.imp-grid{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:12px}
+.imp-grid label{font-size:14px;color:#475569}
+.imp-grid input,.imp-grid select,.imp-set input{border:1px solid #cbd5e1;border-radius:7px;padding:7px}
+.imp-grid input{width:70px}
+.imp-set{margin-top:10px;font-size:14px;color:#475569}
+.imp-set input{width:160px;margin:0 10px 0 4px}
+.week{display:grid;grid-template-columns:repeat(7,minmax(170px,1fr));gap:10px;overflow:auto;padding-bottom:4px}
+.day{min-width:170px;border:1px solid var(--line);border-radius:12px;padding:10px;background:#fbfdff}
 .day h4{margin:0 0 8px;color:#2457a7}
 .shift{border-top:1px dashed #d7dee8;padding:8px 0}
 .shift:first-of-type{border-top:0}
@@ -30,31 +37,151 @@ input[type=file]{display:none}
 .people{display:flex;flex-wrap:wrap;gap:5px}
 .person{display:inline-flex;align-items:center;border:1px solid #d2dbe8;background:#fff;border-radius:18px;padding:4px 7px;font-size:13px;cursor:pointer}
 .person input{margin:0 4px 0 0}
-.adminrow{display:flex;gap:5px;margin-top:7px;align-items:center}
-.adminrow select,.adminrow input{border:1px solid #cbd5e1;border-radius:7px;padding:7px;min-width:0}
-.adminrow select{width:82px}.adminrow input{width:100%}
-.admin-tag{font-size:12px;color:#b42318}
+.admin-wrap{margin-top:8px;padding:6px;border:1px solid #f3d0cc;background:#fff8f7;border-radius:9px}
+.admin-label{font-size:12px;color:var(--red);font-weight:bold;margin-bottom:4px}
+.adminrow{display:flex;gap:4px;margin-top:5px;align-items:center}
+.adminrow select,.adminrow input{border:1px solid #cbd5e1;border-radius:7px;padding:6px;min-width:0}
+.adminrow select{width:78px;flex:none}.adminrow input{width:100%}
+.admin-tag{font-size:12px;color:#b42318;display:block;font-weight:normal;margin-top:2px}
 .actions{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
 .scroll{overflow:auto}
 table{border-collapse:collapse;width:100%;min-width:650px}
 td,th{border:1px solid #cbd5e1;padding:9px;text-align:center}
 th{background:#eaf0ff}
+td.admin-cell{color:var(--red);text-align:left}
 .notice{padding:10px;border-radius:9px;background:#f8fafc;margin-top:10px}
 details summary{cursor:pointer;font-weight:bold;color:#475569}
-@media(max-width:700px){header{padding:16px}.week{grid-template-columns:repeat(7,150px)}}
+@media(max-width:700px){header{padding:16px}.week{grid-template-columns:repeat(7,170px)}}
+
+.docrow{display:flex;gap:4px;align-items:center;margin:2px 0 6px;font-size:13px;color:#475569}
+.docrow span{flex:none;font-weight:bold}
+.docrow input{width:100%;min-width:0;border:1px solid #cbd5e1;border-radius:7px;padding:5px}
+.docrow select{border:1px solid #cbd5e1;border-radius:7px;padding:5px;flex:none}
+.keywrap{margin-top:8px;padding:6px;border:1px solid #e5d9a8;background:#fffdf2;border-radius:9px}
+.key-label{font-size:12px;color:#8a6d00;font-weight:bold;margin-bottom:4px}
+.info-grid{display:grid;grid-template-columns:repeat(7,minmax(130px,1fr));gap:8px;overflow:auto;margin:6px 0 12px}
+.info-grid input{width:100%;border:1px solid #cbd5e1;border-radius:7px;padding:6px}
+.info-one{display:block;margin:6px 0;font-size:14px;color:#475569}
+.info-one input{width:100%;border:1px solid #cbd5e1;border-radius:7px;padding:7px;margin-top:4px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:700px){.two-col{grid-template-columns:1fr}}
+textarea.big{width:100%;min-height:120px;border:1px solid #cbd5e1;border-radius:9px;padding:8px;font:inherit;margin-top:4px}
+table.sheet{table-layout:fixed;min-width:960px;font-size:14px;background:#fff}
+.sheet td,.sheet th{border:1px solid #6b7280;padding:3px 4px;height:30px;vertical-align:middle;word-break:break-all}
+.sheet th{background:#fff;font-weight:600}
+.sheet .sess{font-weight:700;font-size:15px;background:#fff}
+.sheet .lbl{font-size:13px;font-weight:600;background:#fff}
+.sheet .sup{color:#e36c09;font-weight:700}
+.sheet .nm{font-weight:600}
+.sheet .c-c{color:#1f6fd0}.sheet .c-p{color:#111}.sheet .c-b{color:#c55a11}
+.sheet .red{color:#e11d1d;font-weight:600}
+.sheet .note{color:#e11d1d;font-weight:600;outline:none}
+.sheet .note:focus{background:#fff8e1}
+.sheet .foot{vertical-align:top;text-align:left;height:120px;font-size:14px}
+.sheet .foot .body{color:#000000;font-weight:600;font-size:16px;white-space:pre-wrap;margin-top:4px}
+
+.rules{margin:6px 0 12px;background:#f8fafc;border-radius:9px;padding:8px 12px}
+.daytabs{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 12px}
+.daytab{flex:1 0 118px;display:flex;flex-direction:column;align-items:center;gap:7px;background:#eef3fb;color:#334155;border:2px solid transparent;border-radius:12px;padding:10px 8px;margin:0}
+.daytab.active{background:#fff;border-color:var(--blue);box-shadow:0 2px 10px #2457a73a;color:var(--blue)}
+.dt-name{font-weight:bold;font-size:15px;text-align:center}
+.dt-cnt{display:flex;gap:4px;flex-wrap:wrap;justify-content:center}
+.pill{font-style:normal;font-size:13px;border-radius:10px;padding:2px 8px;font-weight:bold;display:inline-block}
+.pill b{font-weight:normal;opacity:.85;margin-left:2px}
+.pill.ok{background:#dcfce7;color:#166534}.pill.low{background:#ffedd5;color:#9a3412}.pill.none{background:#e5e7eb;color:#6b7280}
+.daypanel{display:none}.daypanel.active{display:block}
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
+.panel-head h4{margin:0;font-size:21px;color:var(--blue);text-align:center}
+.shift-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media(max-width:1000px){.shift-grid{grid-template-columns:1fr}}
+.shift.shift-card{border:1px solid var(--line)!important;border-radius:14px;padding:14px;background:#fbfdff}
+.shift-card.s0{box-shadow:inset 0 6px 0 #f59e0b}
+.shift-card.s1{box-shadow:inset 0 6px 0 #22a06b}
+.shift-card.s2{box-shadow:inset 0 6px 0 #6366f1}
+.card-title{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:19px;font-weight:bold;margin:6px 0 10px}
+.shift-card .admin-tag{display:none}
+.status{font-size:13px;font-weight:bold;border-radius:10px;padding:3px 10px}
+.status.ok{background:#dcfce7;color:#166534}.status.low{background:#ffedd5;color:#9a3412}.status.none{background:#e5e7eb;color:#6b7280}
+.shift-card .docrow{font-size:14px}
+.shift-card .docrow input{font-size:16px;padding:8px}
+.shift-card .docrow select{font-size:15px;padding:8px}
+.sec-label{font-size:15px;font-weight:bold;color:#334155;margin:14px 0 8px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.sec-label small{font-weight:normal;color:#64748b;font-size:13px}
+.sec-label .mini{margin-left:auto}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{position:relative;cursor:pointer;display:inline-block}
+.chip input{position:absolute;opacity:0;width:0;height:0}
+.chip span{display:inline-flex;align-items:center;gap:5px;padding:8px 14px;min-height:42px;border:2px solid #cbd5e1;border-radius:22px;background:#fff;font-size:16px;color:#334155;user-select:none}
+.chip em{font-size:11px;font-style:normal;color:#94a3b8}
+.chip input:checked+span{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:bold}
+.chip input:checked+span::before{content:'✓'}
+.chip input:checked+span em{color:#dbeafe}
+.chip input:focus-visible+span{outline:3px solid #93c5fd}
+.chip.key input:checked+span{background:#d99a00;border-color:#d99a00}
+.shift-card .admin-wrap{margin-top:14px;padding:10px}
+.shift-card .admin-label{font-size:14px}
+.shift-card .adminrow select{width:112px;font-size:15px;padding:8px}
+.shift-card .adminrow input{font-size:15px;padding:8px}
+.shift-card .keywrap{margin-top:14px;padding:10px}
+.shift-card .keywrap .sec-label{margin:0 0 8px;color:#8a6d00}
+
+
+.sheet .ed{outline:none;cursor:text}
+.sheet .ed:hover,.sheet .note:hover{background:#fffbe6}
+.sheet .ed:focus,.sheet .note:focus{background:#fff3c4;box-shadow:inset 0 0 0 2px #f59e0b}
+.rowbtns{display:flex;flex-direction:column;gap:4px;margin-top:8px}
+.rowbtns button{font-size:11px;padding:4px 2px;margin:0;border-radius:6px;background:#e0e7ff;color:#1e3a8a;border:0;cursor:pointer}
+.rowbtns button:hover{background:#c7d2fe}
+.draftbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0}
+.draftbar select{padding:9px;border:1px solid #cbd5e1;border-radius:9px;font-size:14px;max-width:100%}
+@media print{
+ html,body{margin:0;padding:0;background:#fff}
+ header,.box:not(#printBox),.hint,#msg{display:none!important}
+ main{margin:0;padding:0;max-width:none}
+ #printBox{box-shadow:none;padding:0;margin:0;border-radius:0}
+ #printBox h3,#printBox .step{display:none}
+ .scroll{overflow:visible}
+ table.sheet{min-width:0}
+ .noprint{display:none!important}
+ #printBox,.scroll,table.sheet{break-inside:avoid;page-break-inside:avoid}
+ *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ @page{size:A4 portrait;margin:5mm}
+}
 </style>
 </head>
 <body>
 <header>
 <h2>🏥 診所公平自動排崗系統</h2>
-<div>圖片參考班表 → 快速勾選出勤／行政 → 一鍵公平排崗</div>
+<div>匯入月班表 PDF → 自動帶入出勤／行政 → 一鍵公平排崗</div>
 </header>
 
 <main>
 <div class="box">
 <div class="step">STEP 1</div>
+<h3>📄 匯入月班表 PDF（自動辨識）</h3>
+<p class="hint">選擇月班表 PDF，系統會讀取上半部的班表：橫軸為日期、縱軸為人員，每人三列依序代表 <b>早診(1)／午診(2)／晚診(3)</b>。<b>黑字數字＝該診上班</b>；<b>紅字數字＝該診執行行政事項</b>（事項名稱取同格的文字，如週班、績效、會議），例如佳怡 11/9 的「2」是紅字，就是午診做週班；<b>例、休、特、預</b>＝休假／不上班；沒有紅字數字、只有黑字文字（如福科、大里）時，依文字所在列視為該診外出／其他事項。<b>藍色格子（如福科、大里＝支援其他院所）會直接略過，不會出現在週班表上。</b>有行政事項的同仁該診不排入櫃檯、藥局、後場。辨識在你的瀏覽器內完成，檔案不會上傳。</p>
+<label class="upload">選擇月班表 PDF<input id="pdfInput" type="file" accept="application/pdf"></label>
+<div class="imp-grid">
+ <label>民國年 <input id="impYear" type="number" min="100" max="2200" onchange="rebuildWeeks()"></label>
+ <label>月份 <input id="impMonth" type="number" min="1" max="12" onchange="rebuildWeeks()"></label>
+ <label>排班週別 <select id="impWeek" onchange="applyWeek()"></select></label>
+</div>
+<details style="margin-top:10px">
+ <summary>辨識設定（進階）</summary>
+ <div class="imp-set">
+  休假標記 <input id="impLeave" value="例,休,特,國,假,預" onchange="applyWeek()">
+  視為一般上班的文字 <input id="impWork" placeholder="例如：預" onchange="applyWeek()">
+  支援其他院所文字（略過） <input id="impSupport" value="福科,大里" onchange="applyWeek()">
+  <div class="hint">以逗號分隔。休假標記的文字不排入任何崗位（班表上的「預」都出現在例休日，預設視為休假）；「視為一般上班」的文字會被當成正常出勤、可排入崗位；其他文字視為行政／其他事項。</div>
+ </div>
+</details>
+<div id="impMsg" class="notice hint">尚未匯入。匯入後會自動勾選下方各診別的上班人員與行政事項，仍可手動修改。切換「排班週別」會重新帶入該週資料（手動修改會被覆蓋）。</div>
+</div>
+
+<div class="box">
+<div class="step">選用</div>
 <h3>📷 上傳月班表圖片（方便對照）</h3>
-<p class="hint">先把月班表圖片放進來，操作時可直接對照。目前這個版本尚未自動 OCR 辨識，所以不會把圖片內容自動填入；下一階段可以再加入。</p>
+<p class="hint">可另外放入班表圖片，操作時對照用（圖片不會自動辨識）。</p>
 <label class="upload">選擇班表圖片<input id="imgInput" type="file" accept="image/*"></label>
 <button class="secondary" onclick="togglePreview()">顯示／隱藏圖片</button>
 <img id="preview" alt="班表預覽">
@@ -62,9 +189,37 @@ details summary{cursor:pointer;font-weight:bold;color:#475569}
 
 <div class="box">
 <div class="step">STEP 2</div>
-<h3>👥 快速選擇每個診別可排人員</h3>
-<p class="hint">直接「勾選」當診上班的人，不需要輸入姓名。<b>稜禎可勾選上班，但僅用來判斷值班主管，不會被排到櫃檯、藥局或後場。</b>值班主管會依順位自動決定：稜禎 → 欣蓓 → 湞葶 → 佳怡 → 宜姗 → 博鈴 → 韋誠 → 佳愉 → 建凱 → 雅貞。行政工作人員不安排一般崗位。</p>
-<div class="week" id="days"></div>
+<h3>👥 確認每個診別可排人員</h3>
+<p class="hint">匯入後會自動勾選。<b>先點上方日期分頁，再點姓名切換上班</b>（藍底＝上班）。分頁上的數字是各診「可排人數」：<span class="pill ok">綠</span> 3 人以上、<span class="pill low">橘</span> 不足 3 人、<span class="pill none">灰</span> 無人；<b>+N</b> 代表另有 N 位行政。</p>
+<details class="rules">
+<summary>📖 排班規則說明</summary>
+<div class="hint" style="margin-top:6px">
+<b>稜禎</b>可勾選上班，但僅用來判斷值班主管，不會被排到櫃檯、藥局或後場。<br>
+值班主管依順位自動決定：稜禎 → 欣蓓 → 湞葶 → 佳怡 → 宜姗 → 博鈴 → 韋誠 → 佳愉 → 建凱 → 雅貞。<br>
+每診上方可編輯<b>醫師</b>（預設為門診表，可改文字與底色），早診與晚診可<b>勾選鑰匙</b>人員。<br>
+<b style="color:#b42318">有行政事項的同仁以行政為主，不會被排入櫃檯、藥局、後場，也不會被當作值班主管；其餘上班人員則優先補滿三個崗位，多出的人會列在「備」。</b>
+</div>
+</details>
+<div class="daytabs" id="dayTabs"></div>
+<div id="days"></div>
+</div>
+
+<div class="box">
+<div class="step">STEP 2-2</div>
+<h3>📝 重要訊息與待辦事項</h3>
+<p class="hint">以下內容會顯示在崗位表上，修改後崗位表會即時更新。</p>
+<b style="font-size:14px">每日重要訊息／待辦事項</b>
+<div class="info-grid" id="impGrid"></div>
+<b style="font-size:14px">每日注意事項</b>
+<div class="info-grid" id="ntGrid"></div>
+<label class="info-one">每天固定注意事項（整列顯示）
+<input id="noteAll" value="每天早診需檢查【筆電、WIFI(充電)/治療包(用品檢查)】" oninput="refreshSheet()"></label>
+<div class="two-col">
+ <label class="info-one">本週待辦事項／重要訊息
+ <textarea class="big" id="weekTodo" placeholder="例如：11/4(三)午診清潔：櫃台後方…" oninput="refreshSheet()"></textarea></label>
+ <label class="info-one">本週注意事項
+ <textarea class="big" id="weekNote" oninput="refreshSheet()">（崗位表及鑰匙人員勿擅自更換）</textarea></label>
+</div>
 </div>
 
 <div class="box">
@@ -72,10 +227,10 @@ details summary{cursor:pointer;font-weight:bold;color:#475569}
 <h3>📊 公平分配設定</h3>
 <div class="actions">
 <button onclick="run()">⚡ 自動公平排崗</button>
-<button class="secondary" onclick="print()">🖨️ 列印／存 PDF</button>
+<button class="secondary" onclick="printSheet()">🖨️ 列印／存 PDF</button>
 <button class="secondary" onclick="clearWeek()">🧹 清空本週勾選</button>
 </div>
-<div id="msg" class="notice hint">請先勾選各診別上班人員。</div>
+<div id="msg" class="notice hint">請先匯入班表，或手動勾選各診別上班人員。</div>
 
 <details style="margin-top:14px">
 <summary>⚙️ 歷史崗位次數（進階設定）</summary>
@@ -84,9 +239,39 @@ details summary{cursor:pointer;font-weight:bold;color:#475569}
 </details>
 </div>
 
-<div class="box">
+<div class="box" id="printBox">
 <div class="step">STEP 4</div>
-<h3>📋 本週崗位表</h3><p class="hint">值班主管會依預設順位自動產生，不影響原本的公平崗位分配。</p>
+<h3>📋 本週崗位表</h3><p class="hint">格式比照班表。值班主管依順位自動產生；行政人員不佔用三個崗位，顯示在「備」列。<b>表格內所有人員與事項欄位都可直接點擊修改</b>（臨時換班、請假代班），每診左側的 <b>＋列／－列</b> 可新增或刪除一列。調整完成後請按「暫存崗位表」，系統會把<b>修改後的崗位</b>計入歷史次數，供下次自動排崗參考。連接 GitHub 後，暫存檔會存到 GitHub 倉庫的「週單紀錄」資料夾。</p>
+<div class="draftbar noprint">
+<button type="button" onclick="saveDraft()">💾 暫存崗位表</button>
+<select id="draftSel"></select>
+<button type="button" class="secondary" onclick="loadDraft()">📂 載入</button>
+<button type="button" class="secondary" onclick="deleteDraft()">🗑 刪除</button>
+<button type="button" class="secondary" onclick="restoreAuto()">↺ 還原自動結果</button>
+<button type="button" onclick="toggleGH()" style="background:#24292f">🐙 GitHub 設定</button>
+<button type="button" class="secondary" onclick="changeFolder()">📁 本機資料夾（備用）</button>
+<button type="button" class="secondary" onclick="document.getElementById('draftFile').click()">📄 開啟記錄檔</button>
+<input type="file" id="draftFile" accept=".json,application/json" hidden onchange="openDraftFile(this)">
+</div>
+<div id="draftInfo" class="hint noprint"></div>
+<div id="ghPanel" class="noprint" style="display:none;margin:8px 0 12px;padding:14px;border:1px solid var(--line);border-radius:12px;background:#f8fafc">
+ <b>🐙 儲存到 GitHub</b>
+ <p class="hint" style="margin:6px 0">連接後，按「💾 暫存崗位表」會把記錄檔（與本機資料夾版相同的 JSON 內容、相同的檔名規則）存進 GitHub 倉庫的<b>「週單紀錄」資料夾</b>（資料夾不存在時會自動建立），下拉選單也會直接列出 GitHub 上的記錄。<br>
+ <b>取得 Token：</b>GitHub → Settings → Developer settings → Personal access tokens → <b>Fine-grained tokens</b> → Generate new token；「Repository access」選 <i>Only select repositories</i> 並只勾這個倉庫；「Permissions → Repository permissions → <b>Contents</b>」選 <b>Read and write</b>。產生後把 Token 貼到下方（<a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">直接前往建立</a>）。<br>
+ <span style="color:#b42318">Token 只會存在這台電腦的瀏覽器裡，不會寫進網頁程式碼或 GitHub；請勿把 Token 貼進 index.html。公開倉庫裡的人員班表任何人都看得到，建議使用私人倉庫。</span></p>
+ <div class="imp-grid">
+  <label>擁有者 <input id="ghOwner" style="width:200px" autocomplete="off"></label>
+  <label>倉庫 <input id="ghRepo" style="width:210px" autocomplete="off"></label>
+  <label>分支 <input id="ghBranch" style="width:110px" placeholder="留空＝預設" autocomplete="off"></label>
+  <label>資料夾 <input id="ghFolder" style="width:120px" autocomplete="off"></label>
+  <label>Token <input id="ghToken" type="password" style="width:280px" autocomplete="new-password"></label>
+ </div>
+ <div class="actions" style="margin-top:6px">
+  <button type="button" onclick="ghConnect()">測試並儲存設定</button>
+  <button type="button" class="secondary" onclick="ghDisconnect()">中斷連接（清除 Token）</button>
+ </div>
+ <div id="ghMsg" class="hint"></div>
+</div>
 <div class="scroll" id="out">尚未排班</div>
 </div>
 
@@ -96,7 +281,10 @@ details summary{cursor:pointer;font-weight:bold;color:#475569}
 </div>
 </main>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>
+if(window.pdfjsLib){pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';}
+
 const P=['欣蓓','湞葶','佳怡','宜姗','博鈴','韋誠','佳愉','建凱','雅貞'];
 const ALL_WORKERS=['稜禎','欣蓓','湞葶','佳怡','宜姗','博鈴','韋誠','佳愉','建凱','雅貞'];
 // 值班主管順位：稜禎不納入一般崗位，但若當診有上班可優先擔任值班主管
@@ -113,31 +301,310 @@ const can={
 let H=JSON.parse(localStorage.getItem('clinicH')||'{}');
 P.forEach(p=>H[p]??={'櫃檯':0,'藥局':0,'後場':0,'櫃檯＋藥局':0});
 let R=[];
+let EDITS={};            // 崗位表人員欄位的手動修改（key -> 文字）
+let ROWS=[0,0,0];        // 早／午／晚各新增的「備」列數
+let SNAPBASE=null;       // 載入暫存時使用的備列基底
+const HK=['櫃檯','藥局','後場','櫃檯＋藥局'];
+const readLS=(k,d)=>{try{return JSON.parse(localStorage.getItem(k)||d)}catch(e){return JSON.parse(d)}};
+const writeLS=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){return false}};
+let COMMITS=readLS('clinicCommits','{}');   // 每週已計入歷史的次數（重複暫存時只會取代、不會重複累加）
+let DRAFTS=readLS('clinicDrafts','{}');
+let DATES=Array(7).fill(null);
+let SCHED=null;
+const dayLabel=i=>D[i]+(DATES[i]?`（${DATES[i]}）`:'');
 
-function init(){
- document.getElementById('days').innerHTML=D.map((d,i)=>`
- <div class="day"><h4>${d}</h4>
- ${S.map((s,j)=>`
-  <div class="shift">
-   <div class="shift-title">${s} <span class="admin-tag" id="tag${i}_${j}"></span></div>
-   <div class="people">
-    ${ALL_WORKERS.map((p,k)=>`<label class="person"><input class="work" type="checkbox" id="w${i}_${j}_${k}">${p}${p==='稜禎'?'（僅主管）':''}</label>`).join('')}
-   </div>
-   <div class="adminrow">
-    <select id="ap${i}_${j}" onchange="updateAdminTag(${i},${j})">
-      <option value="">行政人員</option>${P.map(p=>`<option value="${p}">${p}</option>`).join('')}
-    </select>
-    <input id="at${i}_${j}" placeholder="行政事項，例如申報" oninput="updateAdminTag(${i},${j})">
-   </div>
-  </div>`).join('')}
- </div>`).join('');
- drawH();
+/* ---------- 醫師預設（門診表）、底色、鑰匙、備註 ---------- */
+const COLORS={blue:['藍','#dbe5f5'],pink:['粉紅','#ffcccc'],magenta:['紫粉','#ffccff'],green:['綠','#c6e0b4'],yellow:['黃','#fff2cc'],gray:['灰','#d9d9d9']};
+// 每天 [早診,午診,晚診] = [醫師, 底色]
+const DOC_DEFAULT=[
+ [['王','blue'],['劉/黃','green'],['劉/黃/王','blue']],
+ [['汪/李','magenta'],['李/陳/王','blue'],['李/汪/黃','yellow']],
+ [['黃/王','blue'],['劉/陳','green'],['劉/王','blue']],
+ [['劉/汪','green'],['李/陳','pink'],['李/陳/黃','yellow']],
+ [['黃/王','blue'],['黃/王','blue'],['劉/李/陳','green']],
+ [['王/陳','blue'],['李/陳','pink'],['李/陳','pink']],
+ [['黃','gray'],['劉/黃','gray'],['劉','green']]
+];
+let NOTES={};
+// 每日重要訊息／待辦事項預設（週一～週日）
+const DEF_IMP=['叫水藥','澆花-櫃檯','叫水藥','澆花-櫃檯','叫水藥','澆花-櫃檯','叫水藥'];
+const colorOptions=sel=>Object.entries(COLORS).map(([k,v])=>`<option value="${k}"${k===sel?' selected':''}>${v[0]}</option>`).join('');
+const gv=id=>{const e=document.getElementById(id);return e?e.value:''};
+function getDoc(d,s){
+ const t=gv(`doc${d}_${s}`).trim();
+ const c=COLORS[gv(`dc${d}_${s}`)]||COLORS.blue;
+ return {t,c:c[1]};
+}
+function getKeys(d,s){
+ return ALL_WORKERS.filter((p,k)=>{const e=document.getElementById(`k${d}_${s}_${k}`);return e&&e.checked});
+}
+function resetDoctors(){
+ for(let d=0;d<7;d++)for(let s=0;s<3;s++){
+  document.getElementById(`doc${d}_${s}`).value=DOC_DEFAULT[d][s][0];
+  document.getElementById(`dc${d}_${s}`).value=DOC_DEFAULT[d][s][1];
+ }
+ refreshSheet();
+}
+function refreshSheet(){ if(typeof renderSheet==='function'&&document.getElementById('out'))renderSheet(); }
+document.addEventListener('input',e=>{
+ const t=e.target;
+ if(t&&t.dataset&&t.dataset.note!==undefined)NOTES[t.dataset.note]=t.innerText.replace(/\n$/,'');
+ if(t&&t.dataset&&t.dataset.edit!==undefined)EDITS[t.dataset.edit]=t.innerText.replace(/\n$/,'');
+});
+// 貼上一律轉純文字，避免帶入格式
+document.addEventListener('paste',e=>{
+ const t=e.target;
+ if(t&&t.isContentEditable){
+  e.preventDefault();
+  const tx=(e.clipboardData||window.clipboardData).getData('text/plain');
+  document.execCommand('insertText',false,tx);
+ }
+});
+// 修改完人員欄位後，同步更新統計表
+document.addEventListener('focusout',e=>{
+ const t=e.target;
+ if(t&&t.dataset&&t.dataset.edit!==undefined)renderStats();
+});
+
+
+/*PARSE_START*/
+function median(a){const b=[...a].sort((x,y)=>x-y);const n=b.length;return n?(n%2?b[(n-1)/2]:(b[n/2-1]+b[n/2])/2):0}
+function normName(s){return String(s).replace(/\s+/g,'').replace(/姍/g,'姗')}
+
+// 把 PDF 文字塊轉成帶座標的單一文字（含以空白切開的合併文字）
+function tokenize(items){
+ const out=[];
+ for(const it of items){
+  const str=it.str; if(!str||!str.trim())continue;
+  const x0=it.transform[4],y=it.transform[5],w=it.width||0;
+  const h=it.height||Math.abs(it.transform[3])||10;
+  const yc=y+h/2;
+  const parts=[...str.matchAll(/\S+/g)];
+  if(parts.length<=1){out.push({s:str.trim(),x:x0+w/2,y:yc,w,h});continue}
+  const len=str.length;
+  for(const m of parts){
+   const a=m.index,b=a+m[0].length;
+   const px0=x0+w*a/len,pw=w*(b-a)/len;
+   out.push({s:m[0],x:px0+pw/2,y:yc,w:pw,h});
+  }
+ }
+ return out;
 }
 
-function updateAdminTag(d,s){
- const p=document.getElementById(`ap${d}_${s}`).value;
- const t=document.getElementById(`at${d}_${s}`).value.trim();
- document.getElementById(`tag${d}_${s}`).textContent=(p&&t)?`行政：${p}／${t}`:'';
+// 依座標解析月班表：回傳 {year,month,N,persons,cells}，cells[人名][日][0|1|2]=[{s:文字,red:是否紅字}]
+function parseSchedule(items,givenNames,isRed,isBlue){
+ const tok=tokenize(items);
+ if(!tok.length)return {error:'此頁沒有可讀取的文字（可能是掃描檔）'};
+ const all=items.map(i=>i.str).join(' ');
+ const my=all.match(/(\d{2,3})\s*年\s*(\d{1,2})\s*月/);
+
+ // 1. 找日期列：由左至右出現 1,2,3… 最長的那一列
+ const nums=tok.filter(t=>/^\d{1,2}$/.test(t.s)).sort((a,b)=>b.y-a.y);
+ const groups=[];
+ for(const t of nums){
+  const g=groups.find(g=>Math.abs(g.y-t.y)<2.5);
+  if(g)g.items.push(t);else groups.push({y:t.y,items:[t]});
+ }
+ let best=null;
+ for(const g of groups){
+  const arr=[...g.items].sort((a,b)=>a.x-b.x);
+  let exp=1;const seq=[];
+  for(const t of arr){if(+t.s===exp){seq.push(t);exp++}}
+  if(!best||seq.length>best.seq.length)best={y:g.y,seq};
+ }
+ if(!best||best.seq.length<20)return {error:'找不到日期列（1～30/31）'};
+ const cols=best.seq.map((t,i)=>({day:i+1,x:t.x}));
+ const colW=median(cols.slice(1).map((c,i)=>c.x-cols[i].x));
+ const xmin=cols[0].x-colW*0.5,xmax=cols[cols.length-1].x+colW*0.5;
+ const headerY=best.y;
+
+ // 2. 找人員（姓名位於每人三列的中間列）
+ const left=tok.filter(t=>t.x<xmin&&t.y<headerY-1);
+ const persons=[];
+ for(const g of givenNames){
+  const m=left.filter(t=>normName(t.s).includes(normName(g))).sort((a,b)=>b.y-a.y)[0];
+  if(m)persons.push({g,y:m.y});
+ }
+ if(persons.length<2)return {error:'找不到人員姓名'};
+ persons.sort((a,b)=>b.y-a.y);
+ const dy=median(persons.slice(1).map((p,i)=>persons[i].y-p.y))/3;
+ if(!(dy>0))return {error:'無法判斷列高'};
+
+ // 3. 每個文字塊歸入「人員／日期／第幾列(早午晚)」
+ const cells={};
+ let redCount=0,blueCount=0;
+ for(const t of tok){
+  if(t.x<xmin||t.x>xmax||t.y>=headerY-1)continue;
+  let ci=-1,cd=1e9;
+  cols.forEach((c,i)=>{const d=Math.abs(c.x-t.x);if(d<cd){cd=d;ci=i}});
+  if(cd>colW*0.6)continue;
+  let bp=null,br=0,bd=1e9;
+  for(const p of persons)for(let r=0;r<3;r++){
+   const d=Math.abs(t.y-(p.y+(1-r)*dy));
+   if(d<bd){bd=d;bp=p;br=r}
+  }
+  if(!bp||bd>dy*0.55)continue;
+  const c1=(cells[bp.g]??={});
+  const c2=(c1[ci+1]??=[[],[],[]]);
+  const red=!!(isRed&&isRed(t));
+  if(red)redCount++;
+  const blue=!red&&!!(isBlue&&isBlue(t));
+  if(blue)blueCount++;
+  c2[br].push({s:t.s,red,blue});
+ }
+ return {year:my?+my[1]:null,month:my?+my[2]:null,N:cols.length,persons:persons.map(p=>p.g),cells,redCount,blueCount,colorOk:!!isRed};
+}
+
+// 一天（三列）內容分類，回傳早/午/晚三診各自狀態 {works,admin:[事項]}
+// 規則：黑字數字＝該診上班；休假標記＝不上班；
+//       紅字數字＝該診執行行政事項（事項名稱取該格的文字，文字寫在哪一列都算）；
+//       沒有紅字數字時，文字（如黑字福科、大里）依其所在列視為該診的其他事項
+function classifyDay(rows,leaveSet,workSet,supportSet){
+ const sess=[0,1,2].map(()=>({works:false,admin:[]}));
+ const redSess=new Set(),labels=[];
+ (rows||[]).forEach((toks,j)=>{
+  for(const k of toks||[]){
+   const t=String(k.s).trim();if(!t)continue;
+   if(leaveSet.has(t))continue;
+   // 支援其他院所（藍色格子／福科、大里等文字）：直接略過，不上班也不算行政
+   if(!/^\d+$/.test(t)&&(k.blue||(supportSet&&supportSet.has(t)))){sess.sup=(sess.sup||0)+1;continue}
+   if(/^\d+$/.test(t)){
+    if(+t>0){if(k.red)redSess.add(j);else sess[j].works=true}
+    continue;
+   }
+   if(workSet.has(t)){sess[j].works=true;continue}
+   labels.push({t,row:j,red:!!k.red});
+  }
+ });
+ const redLabels=labels.filter(l=>l.red),blackLabels=labels.filter(l=>!l.red);
+ const uniq=a=>[...new Set(a.map(l=>l.t))];
+ if(redSess.size){
+  // 紅字數字所在診別 → 行政事項
+  const names=redLabels.length?uniq(redLabels):uniq(blackLabels);
+  const task=names.join('／')||'行政事項';
+  redSess.forEach(j=>{sess[j].works=false;sess[j].admin.push(task)});
+  if(redLabels.length)blackLabels.forEach(l=>sess[l.row].admin.push(l.t)); // 另有黑字文字：依所在列
+ }else{
+  labels.forEach(l=>sess[l.row].admin.push(l.t));
+ }
+ return sess;
+}
+/*PARSE_END*/
+
+/* ---------- 行政事項（每診可多筆） ---------- */
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+function adminRowHTML(p='',t=''){
+ return `<div class="adminrow">
+  <select class="ap" onchange="updateAdminTag(this)">
+   <option value="">行政人員</option>${ALL_WORKERS.map(x=>`<option value="${x}"${x===p?' selected':''}>${x}</option>`).join('')}
+  </select>
+  <input class="at" placeholder="行政事項，例如申報" value="${esc(t)}" oninput="updateAdminTag(this)">
+  <button class="mini danger" title="移除" onclick="removeAdmin(this)">✕</button>
+ </div>`;
+}
+
+function addAdmin(d,s){
+ document.getElementById(`adm${d}_${s}`).insertAdjacentHTML('beforeend',adminRowHTML());
+}
+
+function removeAdmin(btn){
+ const box=btn.closest('.shift').querySelector('.admin-rows');
+ btn.closest('.adminrow').remove();
+ if(!box.children.length)box.insertAdjacentHTML('beforeend',adminRowHTML());
+ updateAdminTag(box);
+}
+
+function getAdmins(d,s){
+ const box=document.getElementById(`adm${d}_${s}`);
+ const list=[];
+ box.querySelectorAll('.adminrow').forEach(row=>{
+  const p=row.querySelector('.ap').value;
+  const t=row.querySelector('.at').value.trim();
+  // 只要選了人員就視為行政：有填事項用事項，沒填則標示「行政事項」
+  if(p)list.push({p,t:t||'行政事項'});
+ });
+ return list;
+}
+
+function updateAdminTag(el){
+ const shift=el.closest('.shift');
+ const d=shift.dataset.d,s=shift.dataset.s;
+ const ad=getAdmins(d,s);
+ document.getElementById(`tag${d}_${s}`).textContent=ad.length?'行政：'+ad.map(x=>`${x.p}／${x.t}`).join('；'):'';
+ refreshSheet();
+}
+
+/* ---------- 畫面初始化 ---------- */
+
+/* ---------- STEP 2：日期分頁與總覽 ---------- */
+function showDay(i){
+ document.querySelectorAll('.daypanel').forEach((p,k)=>p.classList.toggle('active',k===i));
+ document.querySelectorAll('.daytab').forEach((t,k)=>t.classList.toggle('active',k===i));
+ const c=document.getElementById('dayTabs'),t=document.getElementById('tab'+i);
+ if(c&&t)c.scrollLeft=t.offsetLeft-(c.clientWidth-t.clientWidth)/2;
+ updateOverview();
+}
+function clearShift(d,s){
+ document.querySelectorAll(`#panel${d} .shift[data-s="${s}"] .work`).forEach(x=>x.checked=false);
+ updateOverview();
+}
+function updateOverview(){
+ const SN=['早','午','晚'];
+ for(let d=0;d<7;d++){
+  const ph=document.getElementById('ph'+d);if(!ph)continue;
+  ph.textContent=dayLabel(d);
+  let tab='';
+  for(let s=0;s<3;s++){
+   const blocked=getAdmins(d,s).map(x=>x.p);
+   let n=0,work=0;
+   ALL_WORKERS.forEach((p,k)=>{
+    const e=document.getElementById(`w${d}_${s}_${k}`);
+    if(e&&e.checked){work++;if(p!=='稜禎'&&!blocked.includes(p))n++}
+   });
+   const adm=blocked.length;
+   const cls=n>=3?'ok':(work+adm>0?'low':'none');
+   tab+=`<i class="pill ${cls}">${SN[s]}${n}${adm?`<b>+${adm}</b>`:''}</i>`;
+   const st=document.getElementById(`st${d}_${s}`);
+   if(st){
+    st.className='status '+cls;
+    st.textContent=(work+adm===0)?'未排人':`可排 ${n} 人${adm?`・行政 ${adm}`:''}${n<3?'・不足3人':''}`;
+   }
+  }
+  document.getElementById('cnt'+d).innerHTML=tab;
+ }
+}
+
+function init(){
+ document.getElementById('dayTabs').innerHTML=D.map((d,i)=>`<button type="button" class="daytab" id="tab${i}" onclick="showDay(${i})"><span class="dt-name" id="dh${i}">${d}</span><span class="dt-cnt" id="cnt${i}"></span></button>`).join('');
+ document.getElementById('days').innerHTML=D.map((d,i)=>`
+  <div class="daypanel" id="panel${i}">
+   <div class="panel-head">
+    <button type="button" class="secondary" onclick="showDay(${(i+6)%7})">◀ 上一天</button>
+    <h4 id="ph${i}">${d}</h4>
+    <button type="button" class="secondary" onclick="showDay(${(i+1)%7})">下一天 ▶</button>
+   </div>
+   <div class="shift-grid">
+   ${S.map((s,j)=>`
+    <div class="shift shift-card s${j}" data-d="${i}" data-s="${j}">
+     <div class="card-title"><span>${['🌅','☀️','🌙'][j]} ${s}</span><span class="admin-tag" id="tag${i}_${j}"></span><span class="status none" id="st${i}_${j}">未排人</span></div>
+     <div class="docrow"><span>醫師</span><input class="doc" id="doc${i}_${j}" value="${DOC_DEFAULT[i][j][0]}" oninput="refreshSheet()"><select id="dc${i}_${j}" onchange="refreshSheet()">${colorOptions(DOC_DEFAULT[i][j][1])}</select></div>
+     <div class="sec-label">上班人員 <small>點選姓名切換</small><button type="button" class="mini secondary" onclick="clearShift(${i},${j})">清除</button></div>
+     <div class="chips">
+      ${ALL_WORKERS.map((p,k)=>`<label class="chip"><input class="work" type="checkbox" id="w${i}_${j}_${k}" onchange="updateOverview()"><span>${p}${p==='稜禎'?'<em>僅主管</em>':''}</span></label>`).join('')}
+     </div>
+     ${j!==1?`<div class="keywrap"><div class="sec-label">🔑 鑰匙 <small>勾選持鑰匙人員</small></div><div class="chips">${ALL_WORKERS.map((p,k)=>`<label class="chip key"><input class="keyck" type="checkbox" id="k${i}_${j}_${k}" onchange="refreshSheet()"><span>${p}</span></label>`).join('')}</div></div>`:''}
+     <div class="admin-wrap">
+      <div class="admin-label">📌 行政事項（紅字）</div>
+      <div class="admin-rows" id="adm${i}_${j}">${adminRowHTML()}</div>
+      <button type="button" class="mini secondary" style="margin-top:8px" onclick="addAdmin(${i},${j})">＋新增行政</button>
+     </div>
+    </div>`).join('')}
+   </div>
+  </div>`).join('');
+ showDay(0);
+ document.getElementById('impGrid').innerHTML=D.map((d,i)=>`<div><div class="hint">${d}</div><input id="dayImp${i}" value="${esc(DEF_IMP[i])}" placeholder="例如：叫水藥" oninput="refreshSheet()"></div>`).join('');
+ document.getElementById('ntGrid').innerHTML=D.map((d,i)=>`<div><div class="hint">${d}</div><input id="dayNt${i}" placeholder="例如：集塵袋(早)" oninput="refreshSheet()"></div>`).join('');
+ drawH();
 }
 
 function drawH(){
@@ -145,15 +612,734 @@ function drawH(){
  P.map((p,i)=>`<tr><td>${p}</td>${['櫃檯','藥局','後場','櫃檯＋藥局'].map(r=>`<td><input style="width:65px" type="number" min="0" id="h${i}_${r}" value="${H[p][r]||0}"></td>`).join('')}</tr>`).join('');
 }
 
-function clearWeek(){
- if(!confirm('確定清空本週所有勾選與行政事項？'))return;
+function resetWeekUI(){
  document.querySelectorAll('.work').forEach(x=>x.checked=false);
- document.querySelectorAll('[id^="ap"]').forEach(x=>x.value='');
- document.querySelectorAll('[id^="at"]').forEach(x=>x.value='');
+ document.querySelectorAll('.admin-rows').forEach(box=>{box.innerHTML=adminRowHTML();});
  document.querySelectorAll('[id^="tag"]').forEach(x=>x.textContent='');
- document.getElementById('out').innerHTML='尚未排班';
+}
+
+function clearWeek(){
+ if(!confirm('確定清空本週所有勾選、行政事項、鑰匙與備註？'))return;
+ resetWeekUI();
+ document.querySelectorAll('.keyck').forEach(x=>x.checked=false);
+ NOTES={};R=[];EDITS={};ROWS=[0,0,0];SNAPBASE=null;
+ renderSheet();
  document.getElementById('stats').innerHTML='尚未排班';
  document.getElementById('msg').textContent='已清空本週資料。';
+}
+
+/* ---------- PDF 匯入 ---------- */
+const impMsg=m=>{document.getElementById('impMsg').innerHTML=m};
+const getSet=id=>new Set(document.getElementById(id).value.split(/[,，、\s]+/).map(s=>s.trim()).filter(Boolean));
+const impYearAD=()=>{const v=+document.getElementById('impYear').value;return v?(v<1000?v+1911:v):0};
+
+// 把頁面畫成圖，檢查每個文字位置有沒有紅色像素（pdf.js 的文字資料不含顏色）
+async function makeRedChecker(page){
+ const scale=3;
+ const vp=page.getViewport({scale});
+ const cv=document.createElement('canvas');
+ cv.width=Math.ceil(vp.width);cv.height=Math.ceil(vp.height);
+ const ctx=cv.getContext('2d',{willReadFrequently:true});
+ ctx.fillStyle='#fff';ctx.fillRect(0,0,cv.width,cv.height);
+ await page.render({canvasContext:ctx,viewport:vp}).promise;
+ const W=cv.width,HT=cv.height;
+ const data=ctx.getImageData(0,0,W,HT).data;
+ const isRed=t=>{
+  const hh=(t.h||8)*0.6,ww=(t.w||6)*0.5+1;
+  const p1=vp.convertToViewportPoint(t.x-ww,t.y-hh/2),p2=vp.convertToViewportPoint(t.x+ww,t.y+hh/2);
+  const xa=Math.max(0,Math.floor(Math.min(p1[0],p2[0]))),xb=Math.min(W-1,Math.ceil(Math.max(p1[0],p2[0])));
+  const ya=Math.max(0,Math.floor(Math.min(p1[1],p2[1]))),yb=Math.min(HT-1,Math.ceil(Math.max(p1[1],p2[1])));
+  let n=0;
+  for(let y=ya;y<=yb;y++)for(let x=xa;x<=xb;x++){
+   const i=(y*W+x)*4;
+   if(data[i]>=170&&data[i+1]<=90&&data[i+2]<=90)n++;
+  }
+  return n>=3;
+ };
+ // 藍色格子（支援其他院所）：文字所在位置有一定比例的藍色像素（底色或藍字皆可）
+ isRed.isBlue=t=>{
+  const hh=(t.h||8)*0.9,ww=(t.w||6)*0.5+2;
+  const p1=vp.convertToViewportPoint(t.x-ww,t.y-hh/2),p2=vp.convertToViewportPoint(t.x+ww,t.y+hh/2);
+  const xa=Math.max(0,Math.floor(Math.min(p1[0],p2[0]))),xb=Math.min(W-1,Math.ceil(Math.max(p1[0],p2[0])));
+  const ya=Math.max(0,Math.floor(Math.min(p1[1],p2[1]))),yb=Math.min(HT-1,Math.ceil(Math.max(p1[1],p2[1])));
+  let n=0,tot=0;
+  for(let y=ya;y<=yb;y++)for(let x=xa;x<=xb;x++){
+   const i=(y*W+x)*4,r=data[i],g=data[i+1],b=data[i+2];
+   tot++;
+   if(b>=r+20&&b>=g-5&&b>=120)n++;
+  }
+  return tot>0&&n>=6&&n/tot>=0.15;
+ };
+ return isRed;
+}
+
+async function importPDF(file){
+ if(!window.pdfjsLib){impMsg('<b style="color:#b42318">PDF 辨識元件載入失敗（需要網路連線），請重新整理後再試。</b>');return}
+ impMsg('讀取班表中…');
+ try{
+  const buf=await file.arrayBuffer();
+  const pdf=await pdfjsLib.getDocument({data:buf}).promise;
+  let best=null,lastErr='';
+  for(let pn=1;pn<=Math.min(pdf.numPages,3);pn++){
+   const page=await pdf.getPage(pn);
+   const tc=await page.getTextContent();
+   let res=parseSchedule(tc.items,ALL_WORKERS);
+   if(res.error){lastErr=res.error;continue}
+   try{ // 版面確認無誤後，再把頁面畫成圖，偵測紅字
+    const isRed=await makeRedChecker(page);
+    res=parseSchedule(tc.items,ALL_WORKERS,isRed,isRed.isBlue);
+   }catch(e){console.warn('紅字偵測失敗',e)}
+   if(!best||res.persons.length>best.persons.length)best=res;
+  }
+  if(!best){impMsg(`<b style="color:#b42318">無法辨識此 PDF：${esc(lastErr||'找不到班表')}。</b>請確認是班表原檔（非掃描／拍照），或改用手動勾選。`);return}
+  SCHED=best;
+  if(best.year)document.getElementById('impYear').value=best.year;
+  if(best.month)document.getElementById('impMonth').value=best.month;
+  if(!best.year||!best.month)impMsg('<b style="color:#b42318">找不到年月，請在上方填入民國年與月份。</b>');
+  rebuildWeeks();
+ }catch(e){
+  console.error(e);
+  impMsg('<b style="color:#b42318">讀取 PDF 時發生錯誤：'+esc(e.message||e)+'</b>');
+ }
+}
+
+function rebuildWeeks(){
+ const y=impYearAD(),m=+document.getElementById('impMonth').value;
+ const sel=document.getElementById('impWeek');
+ if(!y||!m||m<1||m>12)return;
+ const prev=sel.value;
+ const dim=new Date(y,m,0).getDate();
+ const wd=(new Date(y,m-1,1).getDay()+6)%7; // 週一=0
+ sel.innerHTML='';
+ for(let start=1-wd;start<=dim;start+=7){
+  const a=new Date(y,m-1,start),b=new Date(y,m-1,start+6);
+  sel.insertAdjacentHTML('beforeend',`<option value="${start}">${a.getMonth()+1}/${a.getDate()} ～ ${b.getMonth()+1}/${b.getDate()}</option>`);
+ }
+ if([...sel.options].some(o=>o.value===prev))sel.value=prev;
+ else{ // 預設選「週一落在該月內」的第一週，避免選到只含月初一天的跨月週
+  const first=[...sel.options].find(o=>+o.value>=1);
+  if(first)sel.value=first.value;
+ }
+ applyWeek();
+}
+
+function applyWeek(){
+ if(!SCHED)return;
+ const y=impYearAD(),m=+document.getElementById('impMonth').value;
+ const start=+document.getElementById('impWeek').value;
+ if(!y||!m)return;
+ const leave=getSet('impLeave'),work=getSet('impWork'),support=getSet('impSupport');
+ {
+  const prevKey=weekKey();
+  const f0=new Date(y,m-1,start);
+  const newKey=`${y}/${f0.getMonth()+1}/${f0.getDate()}`;
+  if(prevKey!=='手動'&&prevKey!==newKey&&(R.length||hasManual())){const sn=snapshot(true);storeDraft(prevKey,sn);autoBackup(sn);} // 換週前自動備份
+  EDITS={};ROWS=[0,0,0];SNAPBASE=null;
+  if(prevKey!==newKey)NOTES={};
+ }
+ resetWeekUI();
+ R=[];
+ let nWork=0,nAdmin=0,nSup=0;
+ for(let i=0;i<7;i++){
+  const dt=new Date(y,m-1,start+i);
+  DATES[i]=`${dt.getMonth()+1}/${dt.getDate()}`;
+  document.getElementById('dh'+i).textContent=dayLabel(i);
+  if(dt.getMonth()!==m-1)continue; // 不在該月，無資料
+  const day=dt.getDate();
+  const adm=[[],[],[]];
+  ALL_WORKERS.forEach((g,k)=>{
+   const rows=SCHED.cells[g]?.[day];
+   if(!rows)return;
+   const sess=classifyDay(rows,leave,work,support);
+   nSup+=sess.sup||0;
+   for(let j=0;j<3;j++){
+    if(sess[j].admin.length){sess[j].admin.forEach(t=>adm[j].push({p:g,t}));nAdmin+=sess[j].admin.length}
+    else if(sess[j].works){document.getElementById(`w${i}_${j}_${k}`).checked=true;nWork++}
+   }
+  });
+  for(let j=0;j<3;j++){
+   if(!adm[j].length)continue;
+   const box=document.getElementById(`adm${i}_${j}`);
+   box.innerHTML=adm[j].map(x=>adminRowHTML(x.p,x.t)).join('');
+   updateAdminTag(box);
+  }
+ }
+
+ // 整月統計：偵測到的非崗位文字
+ const tally={};
+ for(const g in SCHED.cells)for(const d in SCHED.cells[g]){
+  classifyDay(SCHED.cells[g][d],leave,work,support).forEach(se=>se.admin.forEach(t=>tally[t]=(tally[t]||0)+1));
+ }
+ const words=Object.entries(tally).sort((a,b)=>b[1]-a[1]).map(([t,n])=>`${esc(t)}×${n}`).join('、')||'無';
+ const missing=ALL_WORKERS.filter(p=>!SCHED.persons.includes(p));
+ const warn=[];
+ if(SCHED.N<28||SCHED.N>31)warn.push(`日期欄偵測到 ${SCHED.N} 欄，與一般月份（28～31）不符`);
+ if(missing.length)warn.push(`未找到人員：${missing.join('、')}`);
+ if(!SCHED.colorOk)warn.push('無法偵測紅字，行政事項改依文字所在列判斷，請務必對照班表確認');
+ else if(!SCHED.redCount)warn.push('整份班表沒有偵測到任何紅字，若班表有紅字請確認 PDF 是否為原檔');
+ impMsg(`${warn.length?`<b style="color:#b42318">⚠️ ${warn.join('；')}</b><br>`:''}`+
+  `<b style="color:#16803c">✅ 已匯入 ${SCHED.year||y-1911}年${m}月班表</b>（日期 ${SCHED.N} 欄、人員 ${SCHED.persons.length} 位），已帶入 ${DATES[0]}～${DATES[6]}：上班 ${nWork} 診次、行政事項 ${nAdmin} 筆（全月偵測到紅字 ${SCHED.redCount||0} 處）；支援其他院所（藍色格／福科、大里）已略過 ${nSup} 筆。<br>`+
+  `<span>整月偵測到的行政／其他文字：${words}。若有文字其實是正常上班或休假，可到「辨識設定」調整。請對照班表確認後再排崗。</span>`);
+ renderSheet();
+}
+
+
+/* ---------- 崗位表（比照班表圖片格式） ---------- */
+const esc2=s=>esc(s).replace(/\n/g,'<br>');
+function noteCell(key,cls){
+ const v=NOTES[key]!==undefined?NOTES[key]:'';
+ return `<td class="note ${cls||''}" contenteditable="true" data-note="${key}">${esc2(v)}</td>`;
+}
+// 人員欄位：可直接編輯，修改後存在 EDITS，不會被重新繪製洗掉
+function ecell(key,cls,base,colspan){
+ const v=EDITS[key]!==undefined?EDITS[key]:base;
+ return `<td${colspan?` colspan="${colspan}"`:''} class="${cls} ed" contenteditable="true" data-edit="${key}">${esc2(v)}</td>`;
+}
+function groupAdmins(list){
+ const m=new Map();
+ list.forEach(x=>{if(!m.has(x.t))m.set(x.t,[]);m.get(x.t).push(x.p)});
+ return [...m.entries()].map(([t,names])=>({t,names}));
+}
+function baseCell(d,s,pos){
+ if(pos==='key'){const k=getKeys(d,s);return k.length?k.join('、')+' 🔑':''}
+ const r=R[d*3+s];
+ if(!r)return '';
+ if(pos==='sup')return r.supervisor||'';
+ if(pos==='c')return r.combo||r.c||'';
+ if(pos==='p')return r.combo?'（同櫃檯）':(r.ph||'');
+ return r.b||'';
+}
+function cellText(d,s,pos){
+ const k=`${d}_${s}_e${pos}`;
+ return EDITS[k]!==undefined?EDITS[k]:baseCell(d,s,pos);
+}
+function baseRows(s,d){
+ if(SNAPBASE&&SNAPBASE[s]&&SNAPBASE[s][d])return SNAPBASE[s][d];
+ const g=groupAdmins(getAdmins(d,s)).map(x=>({names:x.names,t:x.t,ex:false}));
+ const r=R[d*3+s];
+ (r&&r.extras?r.extras:[]).forEach(q=>g.push({names:[q],t:'',ex:true}));
+ return g;
+}
+const nbBase=s=>Math.max(1,...[0,1,2,3,4,5,6].map(d=>baseRows(s,d).length));
+function addRow(s){ROWS[s]++;renderSheet()}
+function delRow(s){
+ if(ROWS[s]<=0){alert('沒有可刪除的新增列（自動產生的列請直接清空文字）');return}
+ const idx=nbBase(s)+ROWS[s]-1;
+ for(let d=0;d<7;d++){delete EDITS[`${d}_${s}_bn${idx}`];delete EDITS[`${d}_${s}_bt${idx}`]}
+ ROWS[s]--;renderSheet();renderStats();
+}
+
+function renderSheet(){
+ const out=document.getElementById('out');if(!out)return;
+ if(typeof updateOverview==='function')updateOverview();
+ const wk=['一','二','三','四','五','六','日'];
+ const head=i=>DATES[i]?`${DATES[i]}(${wk[i]})`:`週${wk[i]}`;
+ const days=[0,1,2,3,4,5,6];
+ let h='<table class="sheet"><colgroup><col style="width:44px"><col style="width:44px">'+'<col style="width:62px"><col style="width:58px">'.repeat(7)+'</colgroup>';
+ h+=`<tr><th colspan="2">日期/星期</th>${days.map(i=>`<th colspan="2">${head(i)}</th>`).join('')}</tr>`;
+ h+=`<tr><td colspan="2" class="lbl">重要訊息<br>待辦事項</td>${days.map(i=>`<td colspan="2" class="red">${esc2(gv('dayImp'+i))}</td>`).join('')}</tr>`;
+ const POS=[{k:'c',n:'櫃',cls:'c-c'},{k:'p',n:'藥',cls:'c-p'},{k:'b',n:'後',cls:'c-b'}];
+ for(let s=0;s<3;s++){
+  const nb=nbBase(s)+ROWS[s];
+  const hasKey=s!==1;
+  const span=1+(hasKey?1:0)+1+3+nb;
+  let first=true;
+  const lead=()=>{
+   if(first){
+    first=false;
+    return `<td class="sess" rowspan="${span}">${S[s]}<div class="rowbtns noprint"><button type="button" onclick="addRow(${s})" title="在此診最下方新增一列">＋列</button><button type="button" onclick="delRow(${s})" title="刪除最後新增的一列">－列</button></div></td>`;
+   }
+   return '';
+  };
+  h+=`<tr>${lead()}<td class="lbl">醫師</td>${days.map(d=>{const x=getDoc(d,s);return `<td colspan="2" style="background:${x.c};font-weight:600">${esc(x.t)}</td>`}).join('')}</tr>`;
+  if(hasKey)h+=`<tr>${lead()}<td class="lbl">鑰匙</td>${days.map(d=>ecell(`${d}_${s}_ekey`,'nm',baseCell(d,s,'key'),2)).join('')}</tr>`;
+  h+=`<tr>${lead()}<td class="lbl" style="color:#e36c09">值班</td>${days.map(d=>ecell(`${d}_${s}_esup`,'sup',baseCell(d,s,'sup'),2)).join('')}</tr>`;
+  POS.forEach(P0=>{
+   h+=`<tr>${lead()}<td class="lbl ${P0.cls}">${P0.n}</td>`+days.map(d=>
+    ecell(`${d}_${s}_e${P0.k}`,`nm ${P0.cls}`,baseCell(d,s,P0.k))+noteCell(`${d}_${s}_${P0.k}`)
+   ).join('')+'</tr>';
+  });
+  for(let n=0;n<nb;n++){
+   h+=`<tr>${lead()}<td class="lbl">備___</td>`+days.map(d=>{
+    const g=baseRows(s,d)[n];
+    const bn=g?g.names.join('\n'):'',bt=g?g.t:'';
+    return ecell(`${d}_${s}_bn${n}`,'nm',bn)+ecell(`${d}_${s}_bt${n}`,'red',bt);
+   }).join('')+'</tr>';
+  }
+ }
+ h+=`<tr><td colspan="2" class="lbl">注意事項</td><td colspan="14" class="red" style="text-align:center">${esc2(gv('noteAll'))}</td></tr>`;
+ h+=`<tr><td colspan="2" class="lbl">注意事項</td>${days.map(i=>`<td colspan="2" class="red">${esc2(gv('dayNt'+i))}</td>`).join('')}</tr>`;
+ h+=`<tr><td colspan="8" class="foot"><b>本週待辦事項/重要訊息：</b><div class="body">${esc(gv('weekTodo'))}</div></td><td colspan="8" class="foot"><b>本週注意事項：</b><div class="body">${esc(gv('weekNote'))}</div></td></tr>`;
+ out.innerHTML=h+'</table>';
+}
+
+/* ---------- 依「目前崗位表（含手動修改）」統計 ---------- */
+const namesIn=text=>P.filter(q=>String(text||'').includes(q));
+function countFromSheet(){
+ const C={};P.forEach(q=>C[q]={'櫃檯':0,'藥局':0,'後場':0,'櫃檯＋藥局':0});
+ for(let d=0;d<7;d++)for(let s=0;s<3;s++){
+  const c=namesIn(cellText(d,s,'c')),ph=String(cellText(d,s,'p')||''),b=namesIn(cellText(d,s,'b'));
+  if(ph.includes('同櫃檯')){c.forEach(q=>C[q]['櫃檯＋藥局']++)}
+  else{c.forEach(q=>C[q]['櫃檯']++);namesIn(ph).forEach(q=>C[q]['藥局']++)}
+  b.forEach(q=>C[q]['後場']++);
+ }
+ return C;
+}
+function renderStats(){
+ const el=document.getElementById('stats');if(!el)return;
+ if(!R.length&&!Object.keys(EDITS).length){el.innerHTML='尚未排班';return}
+ const C=countFromSheet();
+ const A={};P.forEach(q=>A[q]=0);
+ R.forEach(r=>(r.ad||[]).forEach(x=>{if(A[x.p]!==undefined)A[x.p]++}));
+ el.innerHTML='<table><tr><th>人員</th><th>櫃檯</th><th>藥局</th><th>後場</th><th>櫃檯＋藥局</th><th>崗位總數</th><th>行政次數</th></tr>'+
+  P.map(q=>`<tr><td>${q}</td>${HK.map(k=>`<td>${C[q][k]}</td>`).join('')}<td>${HK.reduce((n,k)=>n+C[q][k],0)}</td><td>${A[q]}</td></tr>`).join('')+'</table>';
+}
+
+/* ---------- 暫存崗位表 ＆ 歷史次數 ---------- */
+const weekKey=()=>DATES[0]?`${impYearAD()||''}/${DATES[0]}`:'手動';
+const keyLabel=k=>k==='手動'?'手動週':`${k.replace(/^\//,'')} 起的一週`;
+const hasManual=()=>Object.keys(EDITS).length>0||ROWS.some(x=>x>0);
+const cloneJ=o=>JSON.parse(JSON.stringify(o));
+function readHistInputs(){
+ P.forEach((q,i)=>HK.forEach(r=>{
+  const e=document.getElementById(`h${i}_${r}`);
+  if(e)H[q][r]=+e.value||0;
+ }));
+}
+function subtractCommit(wk){
+ const c=COMMITS[wk];if(!c)return;
+ P.forEach(q=>HK.forEach(k=>{H[q][k]=Math.max(0,H[q][k]-(((c[q]||{})[k])||0))}));
+}
+function commitHistory(wk,base,cnt){
+ H=cloneJ(base);
+ P.forEach(q=>HK.forEach(k=>{H[q][k]+=cnt[q][k]}));
+ COMMITS[wk]=cnt;
+ writeLS('clinicCommits',COMMITS);writeLS('clinicH',H);
+ drawH();
+}
+function snapshot(auto){
+ const days=[0,1,2,3,4,5,6];
+ const keys=[];
+ ALL_WORKERS.forEach((q,k)=>days.forEach(d=>[0,2].forEach(s=>{
+  const e=document.getElementById(`k${d}_${s}_${k}`);if(e&&e.checked)keys.push(`k${d}_${s}_${k}`);
+ })));
+ const docs={};
+ days.forEach(d=>[0,1,2].forEach(s=>{docs[`${d}_${s}`]=[gv(`doc${d}_${s}`),gv(`dc${d}_${s}`)]}));
+ const info={imp:days.map(i=>gv('dayImp'+i)),nt:days.map(i=>gv('dayNt'+i)),all:gv('noteAll'),todo:gv('weekTodo'),note:gv('weekNote')};
+ const base=[0,1,2].map(s=>days.map(d=>baseRows(s,d).map(e=>({names:e.names,t:e.t,ex:!!e.ex}))));
+ return cloneJ({v:1,auto:!!auto,key:weekKey(),dates:DATES,savedAt:Date.now(),R,EDITS,NOTES,ROWS,base,keys,docs,info});
+}
+function storeDraft(key,snap){
+ DRAFTS[key]=snap;
+ const ks=Object.keys(DRAFTS).sort((a,b)=>DRAFTS[b].savedAt-DRAFTS[a].savedAt);
+ ks.slice(10).forEach(k=>delete DRAFTS[k]);
+ return writeLS('clinicDrafts',DRAFTS);
+}
+const fmtTime=t=>{const d=new Date(t),z=n=>String(n).padStart(2,'0');return `${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()} ${z(d.getHours())}:${z(d.getMinutes())}`};
+/* ---------- 本機資料夾「週單紀錄」（File System Access API，Chrome／Edge） ---------- */
+const FS_OK=typeof window.showDirectoryPicker==='function';
+const FOLDER_NAME='週單紀錄';
+let ROOT=null,DIR=null;
+function idbOpen(){return new Promise((res,rej)=>{const r=indexedDB.open('clinicFS',1);r.onupgradeneeded=()=>r.result.createObjectStore('h');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
+async function idbGet(k){try{const db=await idbOpen();return await new Promise((res,rej)=>{const q=db.transaction('h').objectStore('h').get(k);q.onsuccess=()=>res(q.result||null);q.onerror=()=>rej(q.error)})}catch(e){return null}}
+async function idbSet(k,v){try{const db=await idbOpen();await new Promise((res,rej)=>{const q=db.transaction('h','readwrite').objectStore('h').put(v,k);q.onsuccess=()=>res();q.onerror=()=>rej(q.error)})}catch(e){}}
+async function perm(h,ask){
+ try{
+  const o={mode:'readwrite'};
+  if((await h.queryPermission(o))==='granted')return true;
+  return ask?((await h.requestPermission(o))==='granted'):false;
+ }catch(e){return false}
+}
+// 取得「週單紀錄」資料夾；ask=true 時（需在按鈕點擊中）可跳出選位置／授權視窗
+async function getDir(ask){
+ if(!FS_OK)return null;
+ try{
+  if(!ROOT)ROOT=await idbGet('root');
+  if(!ROOT&&ask){
+   ROOT=await window.showDirectoryPicker({mode:'readwrite',id:'clinic-weekly'});
+   await idbSet('root',ROOT);DIR=null;
+  }
+  if(!ROOT)return null;
+  if(!(await perm(ROOT,ask)))return null;
+  if(!DIR)DIR=(ROOT.name===FOLDER_NAME)?ROOT:await ROOT.getDirectoryHandle(FOLDER_NAME,{create:true});
+  return DIR;
+ }catch(e){
+  if(!(e&&e.name==='AbortError'))console.warn(e);
+  return null;
+ }
+}
+
+/* ---------- GitHub 儲存：把暫存檔存到 GitHub 倉庫的「週單紀錄」資料夾 ---------- */
+const GH_KEY='clinicGH';
+function ghDefaults(){
+ let owner='wlily3love870817-web',repo='clinic-position-scheduler';
+ try{
+  const m=location.hostname.match(/^(.+)\.github\.io$/i);
+  if(m){owner=m[1];const seg=location.pathname.split('/').filter(Boolean)[0];if(seg&&!/\.html?$/i.test(seg))repo=seg}
+ }catch(e){}
+ return {owner,repo,branch:'',folder:FOLDER_NAME,token:''};
+}
+let GH=Object.assign(ghDefaults(),readLS(GH_KEY,'{}'));
+let GHSHA={},GHTAG={};
+const ghOn=()=>!!(GH.token&&GH.owner&&GH.repo);
+const ghEnc=p=>p.split('/').map(encodeURIComponent).join('/');
+const ghBranchQ=()=>GH.branch?`?ref=${encodeURIComponent(GH.branch)}`:'';
+function ghFetch(path,opt={}){
+ const base=`https://api.github.com/repos/${encodeURIComponent(GH.owner)}/${encodeURIComponent(GH.repo)}`;
+ const url=base+(path===null?'':`/contents/${ghEnc(path)}`)+(opt.query||'');
+ const headers={'Authorization':'Bearer '+GH.token,'X-GitHub-Api-Version':'2022-11-28','Accept':opt.raw?'application/vnd.github.raw+json':'application/vnd.github+json'};
+ if(opt.body)headers['Content-Type']='application/json';
+ return fetch(url,{method:opt.method||'GET',headers,body:opt.body?JSON.stringify(opt.body):undefined});
+}
+async function ghErr(res){
+ let msg='';try{msg=(await res.json()).message||''}catch(e){}
+ const hint=res.status===401?'（Token 無效或已過期）':res.status===403?'（權限不足或請求過多，請確認 Token 對此倉庫有「Contents：Read and write」權限）':res.status===404?'（找不到倉庫或分支，或 Token 沒有此倉庫的權限）':'';
+ return `GitHub 回應 ${res.status}${hint}${msg?'：'+msg:''}`;
+}
+function b64utf8(str){
+ const bytes=new TextEncoder().encode(str);let bin='';
+ for(let i=0;i<bytes.length;i+=0x8000)bin+=String.fromCharCode.apply(null,bytes.subarray(i,i+0x8000));
+ return btoa(bin);
+}
+// 列出資料夾內的檔案；資料夾還沒建立（404）視為空
+async function ghList(){
+ const res=await ghFetch(GH.folder,{query:ghBranchQ()});
+ if(res.status===404)return [];
+ if(!res.ok)throw new Error(await ghErr(res));
+ const j=await res.json();
+ return Array.isArray(j)?j.filter(f=>f.type==='file'):[];
+}
+async function ghWriteSnapshot(snap){
+ const list=await ghList();
+ let seq=1;
+ list.forEach(f=>{const m=f.name.match(/第(\d+)份\.json$/);if(m)seq=Math.max(seq,+m[1]+1)});
+ for(let t=0;t<3;t++){
+  const name=stampName(seq+t);
+  const body={message:`暫存崗位表 ${name}`,content:b64utf8(JSON.stringify(snap))};
+  if(GH.branch)body.branch=GH.branch;
+  const res=await ghFetch(`${GH.folder}/${name}`,{method:'PUT',body});
+  if(res.ok){let url='';try{url=((await res.json()).content||{}).html_url||''}catch(e){}return {name,url}}
+  if(res.status===422||res.status===409)continue; // 檔名衝突，換下一個序號再試
+  throw new Error(await ghErr(res));
+ }
+ throw new Error('檔名衝突，請稍後再試');
+}
+async function ghReadFile(name){
+ const res=await ghFetch(`${GH.folder}/${name}`,{raw:true,query:ghBranchQ()});
+ if(!res.ok)throw new Error(await ghErr(res));
+ return JSON.parse(await res.text());
+}
+async function ghDeleteFile(name){
+ let sha=GHSHA[name];
+ if(!sha){
+  const r=await ghFetch(`${GH.folder}/${name}`,{query:ghBranchQ()});
+  if(!r.ok)throw new Error(await ghErr(r));
+  sha=(await r.json()).sha;
+ }
+ const body={message:`刪除暫存 ${name}`,sha};
+ if(GH.branch)body.branch=GH.branch;
+ const res=await ghFetch(`${GH.folder}/${name}`,{method:'DELETE',body});
+ if(!res.ok)throw new Error(await ghErr(res));
+ delete GHSHA[name];
+}
+// 下拉選單：列出 GitHub 資料夾內的記錄（最新 15 份會讀取週別標籤）
+async function ghRefreshUI(el,info,sel){
+ try{
+  const list=(await ghList()).filter(f=>/\.json$/i.test(f.name)).sort((a,b)=>b.name.localeCompare(a.name));
+  GHSHA={};list.forEach(f=>{GHSHA[f.name]=f.sha});
+  await Promise.all(list.slice(0,15).filter(f=>GHTAG[f.sha]===undefined).map(async f=>{
+   try{const sn=await ghReadFile(f.name);GHTAG[f.sha]=` ｜ ${keyLabel(sn.key||'手動')}${sn.auto?'（自動備份）':''}`}catch(e){GHTAG[f.sha]=''}
+  }));
+  el.innerHTML=list.length?list.map(f=>`<option value="${esc('g:'+f.name)}">${esc(f.name.replace(/\.json$/i,'')+(GHTAG[f.sha]||''))}</option>`).join(''):'<option value="">GitHub 資料夾內尚無記錄</option>';
+  if(sel){const o=[...el.options].find(x=>x.value===sel);if(o)el.value=sel}
+  info.textContent=`儲存位置：GitHub 倉庫「${GH.owner}/${GH.repo}」的「${GH.folder}」資料夾${GH.branch?`（分支 ${GH.branch}）`:''}，共 ${list.length} 份。`;
+  return '';
+ }catch(e){
+  return `GitHub 連線失敗：${e.message}`;
+ }
+}
+function autoBackup(sn){
+ (ghOn()?ghWriteSnapshot(sn):getDir(false).then(d=>d?writeFileTo(d,sn):null)).then(()=>refreshDraftUI()).catch(()=>{});
+}
+function toggleGH(){
+ const p=document.getElementById('ghPanel');
+ p.style.display=(p.style.display==='none')?'block':'none';
+ if(p.style.display!=='none')ghFill();
+}
+function ghFill(){
+ const set=(id,v)=>{const e=document.getElementById(id);if(e)e.value=v};
+ set('ghOwner',GH.owner);set('ghRepo',GH.repo);set('ghBranch',GH.branch||'');set('ghFolder',GH.folder||FOLDER_NAME);set('ghToken','');
+ document.getElementById('ghToken').placeholder=GH.token?'已儲存（留空＝不變更）':'貼上 Token';
+ document.getElementById('ghMsg').innerHTML=ghOn()?`<b style="color:#16803c">目前已連接：${esc(GH.owner)}/${esc(GH.repo)}</b>`:'尚未連接：目前暫存存在瀏覽器／本機資料夾。';
+}
+async function ghConnect(){
+ const msg=h=>{document.getElementById('ghMsg').innerHTML=h};
+ const g={
+  owner:gv('ghOwner').trim(),repo:gv('ghRepo').trim().replace(/\.git$/,''),branch:gv('ghBranch').trim(),
+  folder:(gv('ghFolder').trim()||FOLDER_NAME).replace(/^\/+|\/+$/g,''),
+  token:gv('ghToken').trim()||GH.token
+ };
+ if(!g.owner||!g.repo||!g.token){msg('<b style="color:#b42318">請填寫擁有者、倉庫與 Token。</b>');return}
+ const old=GH;GH=g;
+ msg('連線測試中…');
+ try{
+  const r=await ghFetch(null);
+  if(!r.ok)throw new Error(await ghErr(r));
+  const info=await r.json();
+  if(info.permissions&&info.permissions.push===false)throw new Error('這個 Token 對此倉庫只有唯讀權限，請改成 Contents「Read and write」');
+  await ghList();
+  writeLS(GH_KEY,GH);GHSHA={};GHTAG={};
+  msg(`<b style="color:#16803c">✅ 已連接 ${esc(g.owner)}/${esc(g.repo)}</b>，之後暫存會存到資料夾「${esc(g.folder)}」。`+(info.private===false?'<br><b style="color:#b42318">⚠️ 這是公開倉庫：存進去的人員班表所有人都看得到，建議改用私人倉庫。</b>':''));
+  document.getElementById('ghToken').value='';
+ }catch(e){
+  GH=old;
+  msg(`<b style="color:#b42318">連線失敗：${esc(e.message)}</b>`);
+ }
+ await refreshDraftUI();
+}
+async function ghDisconnect(){
+ GH.token='';writeLS(GH_KEY,GH);GHSHA={};GHTAG={};
+ ghFill();
+ document.getElementById('ghMsg').innerHTML='已中斷連接並清除這台電腦上的 Token（GitHub 上已存的檔案不受影響）。';
+ await refreshDraftUI();
+}
+
+async function changeFolder(){
+ if(!FS_OK){alert('此瀏覽器不支援直接寫入本機資料夾，請改用 Chrome 或 Edge。');return}
+ ROOT=null;DIR=null;await idbSet('root',null);
+ const d=await getDir(true);
+ if(d)document.getElementById('msg').innerHTML=`<b style="color:#16803c">📁 已連接資料夾「${esc(FOLDER_NAME)}」（位於「${esc(ROOT.name)}」內）。</b>`;
+ await refreshDraftUI();
+}
+const pad2=n=>String(n).padStart(2,'0');
+function stampName(seq){
+ const d=new Date();
+ return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}_${pad2(d.getHours())}-${pad2(d.getMinutes())}-${pad2(d.getSeconds())}_第${seq}份.json`;
+}
+async function nextSeq(dir){
+ let mx=0;
+ for await(const [n] of dir.entries()){const m=n.match(/第(\d+)份\.json$/);if(m)mx=Math.max(mx,+m[1])}
+ return mx+1;
+}
+async function writeFileTo(dir,snap){
+ const name=stampName(await nextSeq(dir));
+ const fh=await dir.getFileHandle(name,{create:true});
+ const w=await fh.createWritable();
+ await w.write(JSON.stringify(snap));
+ await w.close();
+ return name;
+}
+function downloadSnap(snap){ // 不支援資料夾寫入的瀏覽器：改下載到「下載」資料夾
+ const seq=(+localStorage.getItem('clinicSeq')||0)+1;
+ try{localStorage.setItem('clinicSeq',seq)}catch(e){}
+ const name=stampName(seq);
+ const a=document.createElement('a');
+ a.href=URL.createObjectURL(new Blob([JSON.stringify(snap)],{type:'application/json'}));
+ a.download=name;document.body.appendChild(a);a.click();a.remove();
+ return name;
+}
+
+async function refreshDraftUI(sel){
+ const el=document.getElementById('draftSel'),info=document.getElementById('draftInfo');
+ if(!el)return;
+ if(ghOn()){
+  const fail=await ghRefreshUI(el,info,sel);
+  if(!fail)return;
+  info.dataset.ghfail=fail;
+ }
+ let opts='',text='';
+ const dir=await getDir(false);
+ if(dir){
+  const list=[];
+  for await(const [n,h] of dir.entries()){if(h.kind==='file'&&/\.json$/i.test(n))list.push([n,h])}
+  list.sort((x,y)=>y[0].localeCompare(x[0]));
+  for(const [n,h] of list){
+   let tag='';
+   try{const sn=JSON.parse(await (await h.getFile()).text());tag=` ｜ ${keyLabel(sn.key||'手動')}${sn.auto?'（自動備份）':''}`}catch(e){}
+   opts+=`<option value="${esc('f:'+n)}">${esc(n.replace(/\.json$/i,'')+tag)}</option>`;
+  }
+  if(!list.length)opts='<option value="">資料夾內尚無記錄</option>';
+  text=`儲存位置：本機資料夾「${FOLDER_NAME}」（位於「${ROOT.name}」內，共 ${list.length} 份）。`;
+ }else{
+  const ks=Object.keys(DRAFTS).sort((x,y)=>DRAFTS[y].savedAt-DRAFTS[x].savedAt);
+  opts=ks.length?ks.map(k=>`<option value="${esc('l:'+k)}">瀏覽器暫存｜${esc(keyLabel(k))}・${fmtTime(DRAFTS[k].savedAt)}${DRAFTS[k].auto?'（自動備份）':''}</option>`).join(''):'<option value="">尚無暫存</option>';
+  if(!FS_OK)text='此瀏覽器不支援直接寫入本機資料夾（需 Chrome／Edge）：暫存時會同步下載記錄檔到「下載」資料夾，並在瀏覽器內保留一份；之後可用「📄 開啟記錄檔」載入。';
+  else if(ROOT)text='尚未取得資料夾權限（重新開啟網頁後需重新授權）：請按「📁 連接／更換資料夾」。目前顯示的是瀏覽器內的暫存。';
+  else text=`尚未選擇存放位置：第一次按「💾 暫存」時，請選一個位置（例如「文件」），系統會自動在裡面建立「${FOLDER_NAME}」資料夾，之後每次暫存都存成一個檔案。`;
+ }
+ el.innerHTML=opts;
+ if(sel){const o=[...el.options].find(x=>x.value===sel);if(o)el.value=sel}
+ if(!ghOn())text+=' 也可按「🐙 GitHub 設定」改存到 GitHub。';
+ if(info){info.textContent=(ghOn()&&info.dataset.ghfail?info.dataset.ghfail+'。目前顯示的是瀏覽器內的暫存。 ':'')+text;delete info.dataset.ghfail}
+}
+
+async function saveDraft(){
+ if(!R.length&&!hasManual()){alert('目前崗位表沒有內容，請先排崗或手動填寫後再暫存。');return}
+ const useGH=ghOn();
+ const dirP=useGH?Promise.resolve(null):getDir(true);   // 先發起（第一次會請你選位置）；其餘計算不需要等待
+ readHistInputs();
+ const wk=weekKey();
+ subtractCommit(wk);
+ const base=cloneJ(H);
+ commitHistory(wk,base,countFromSheet());
+ const snap=snapshot(false);
+ storeDraft(wk,snap);                  // 瀏覽器內另存一份備份
+ renderStats();
+ const dir=await dirP;
+ let where='',ok=true,sel;
+ if(useGH){
+  try{const r=await ghWriteSnapshot(snap);sel='g:'+r.name;where=`已存入 GitHub「${GH.owner}/${GH.repo}」的「${GH.folder}」資料夾：${r.name}`}
+  catch(e){ok=false;where=`寫入 GitHub 失敗（${e.message}），已保留瀏覽器內備份`}
+ }else if(dir){
+  try{const name=await writeFileTo(dir,snap);sel='f:'+name;where=`已存入本機資料夾「${FOLDER_NAME}」：${name}`}
+  catch(e){ok=false;where=`寫入資料夾失敗（${e.message}），已保留瀏覽器內備份`}
+ }else if(!FS_OK){
+  const name=downloadSnap(snap);where=`此瀏覽器無法直接寫入資料夾，已下載記錄檔「${name}」到「下載」資料夾`;
+ }else{
+  ok=false;where='尚未選擇資料夾，僅暫存於瀏覽器內';
+ }
+ document.getElementById('msg').innerHTML=`<b style="color:${ok?'#16803c':'#b42318'}">${ok?'💾':'⚠️'} ${esc(where)}。歷史次數已依修改後的崗位更新（同一週重複暫存只會取代、不會重複累加）。</b>`;
+ await refreshDraftUI(sel);
+}
+
+function applySnapshot(sn,label){
+ if(!sn||!sn.R){alert('這不是有效的暫存記錄檔');return}
+ if((R.length||hasManual())&&!confirm('載入暫存會取代目前畫面上的崗位表，確定嗎？'))return;
+ DATES=(sn.dates||Array(7).fill(null)).slice();
+ for(let i=0;i<7;i++){const e=document.getElementById('dh'+i);if(e)e.textContent=dayLabel(i)}
+ R=sn.R;EDITS=sn.EDITS||{};NOTES=sn.NOTES||{};ROWS=sn.ROWS||[0,0,0];SNAPBASE=sn.base||null;
+ document.querySelectorAll('.keyck').forEach(x=>x.checked=false);
+ (sn.keys||[]).forEach(id=>{const e=document.getElementById(id);if(e)e.checked=true});
+ Object.entries(sn.docs||{}).forEach(([k2,v])=>{
+  const a=document.getElementById('doc'+k2),b=document.getElementById('dc'+k2);
+  if(a)a.value=v[0];if(b)b.value=v[1];
+ });
+ const f=sn.info||{};
+ (f.imp||[]).forEach((v,i)=>{const e=document.getElementById('dayImp'+i);if(e)e.value=v});
+ (f.nt||[]).forEach((v,i)=>{const e=document.getElementById('dayNt'+i);if(e)e.value=v});
+ [['noteAll',f.all],['weekTodo',f.todo],['weekNote',f.note]].forEach(([id,v])=>{const e=document.getElementById(id);if(e&&v!==undefined)e.value=v});
+ renderSheet();renderStats();
+ document.getElementById('msg').innerHTML=`<b style="color:#16803c">📂 已載入「${esc(label)}」，可繼續編輯，改完再按「暫存」會存成新的一份。</b>`;
+}
+async function loadDraft(){
+ const v=document.getElementById('draftSel').value;
+ if(!v){alert('尚無可載入的暫存');return}
+ try{
+  if(v.startsWith('g:')){
+   const n=v.slice(2);
+   applySnapshot(await ghReadFile(n),n.replace(/\.json$/i,''));
+  }else if(v.startsWith('f:')){
+   const dir=await getDir(true);
+   if(!dir){alert('無法存取資料夾，請先按「📁 本機資料夾（備用）」');return}
+   const n=v.slice(2);
+   const sn=JSON.parse(await (await (await dir.getFileHandle(n)).getFile()).text());
+   applySnapshot(sn,n.replace(/\.json$/i,''));
+  }else{
+   const k=v.slice(2);
+   applySnapshot(DRAFTS[k],`瀏覽器暫存・${keyLabel(k)}`);
+  }
+ }catch(e){alert('讀取失敗：'+e.message)}
+}
+function openDraftFile(inp){
+ const f=inp.files[0];if(!f)return;
+ const rd=new FileReader();
+ rd.onload=()=>{try{applySnapshot(JSON.parse(rd.result),f.name.replace(/\.json$/i,''))}catch(e){alert('無法讀取此檔案：'+e.message)}};
+ rd.readAsText(f);
+ inp.value='';
+}
+async function deleteDraft(){
+ const v=document.getElementById('draftSel').value;
+ if(!v)return;
+ if(!confirm(v.startsWith('g:')?'確定刪除這份暫存？（會從 GitHub 倉庫刪除這個檔案；已計入的歷史次數不會被扣除）':'確定刪除這份暫存？（已計入的歷史次數不會被扣除）'))return;
+ try{
+  if(v.startsWith('g:')){
+   await ghDeleteFile(v.slice(2));
+  }else if(v.startsWith('f:')){
+   const dir=await getDir(true);
+   if(!dir){alert('無法存取資料夾');return}
+   await dir.removeEntry(v.slice(2));
+  }else{
+   delete DRAFTS[v.slice(2)];writeLS('clinicDrafts',DRAFTS);
+  }
+ }catch(e){alert('刪除失敗：'+e.message)}
+ await refreshDraftUI();
+}
+function restoreAuto(){
+ if(!hasManual()){alert('目前沒有手動修改的人員欄位或新增列');return}
+ if(!confirm('要清除所有人員欄位的手動修改與新增列，還原成自動排崗結果嗎？（紅字備註保留）'))return;
+ EDITS={};ROWS=[0,0,0];renderSheet();renderStats();
+}
+
+
+/* ---------- 列印：固定 A4 直式、邊界 5mm，崗位表自動縮放撐滿一頁 ---------- */
+function fitPrint(){
+ const t=document.querySelector('#out table.sheet');if(!t)return;
+ const o=document.getElementById('out');
+ const availW=200/25.4*96*0.985,availH=287/25.4*96*0.985; // A4 扣掉兩側 5mm
+ t.style.zoom='';t.style.transform='';t.style.height='';
+ let w=960;t.style.width=w+'px';
+ let s=Math.min(availW/w,availH/t.offsetHeight);
+ for(let i=0;i<4;i++){
+  w=availW/s;t.style.width=w+'px';
+  const s2=Math.min(availW/w,availH/t.offsetHeight);
+  if(Math.abs(s2-s)<0.001)break;
+  s=s2;
+ }
+ t.style.height=(availH/s)+'px'; // 若比較短就拉高，讓表格填滿整頁
+ if('zoom' in t.style){t.style.zoom=s}
+ else{t.style.transformOrigin='0 0';t.style.transform=`scale(${s})`;o.style.height=availH+'px';o.style.overflow='hidden'}
+}
+function unfitPrint(){
+ const t=document.querySelector('#out table.sheet'),o=document.getElementById('out');
+ if(t){t.style.zoom='';t.style.width='';t.style.height='';t.style.transform='';t.style.transformOrigin=''}
+ if(o){o.style.height='';o.style.overflow=''}
+}
+function printSheet(){fitPrint();window.print()}
+window.addEventListener('beforeprint',fitPrint);
+window.addEventListener('afterprint',unfitPrint);
+
+/* ---------- 排班邏輯 ---------- */
+// 三個人、三個崗位：窮舉所有可行組合，選歷史次數總和最低者
+// 這樣可確保「櫃檯、藥局、後場」優先補滿，不會因為先排櫃檯而讓受限同仁（如雅貞）無法就位
+function assignThree(avail){
+ let best=null;
+ for(const c of avail)for(const ph of avail)for(const b of avail){
+  if(c===ph||c===b||ph===b)continue;
+  if(!can[c].includes('櫃檯')||!can[ph].includes('藥局')||!can[b].includes('後場'))continue;
+  const score=H[c]['櫃檯']+H[ph]['藥局']+H[b]['後場'];
+  if(!best||score<best.score)best={c,ph,b,score};
+ }
+ return best;
+}
+
+// 限制衝突或人數不足時：盡量多填崗位（歷史次數低者優先），避免人員被丟掉
+function assignPartial(avail){
+ const pos=['櫃檯','藥局','後場'];
+ let best=null;
+ const used=new Set(),cur={};
+ const rec=(i,filled,score)=>{
+  if(i===3){
+   if(!best||filled>best.filled||(filled===best.filled&&score<best.score))best={assign:{...cur},filled,score};
+   return;
+  }
+  for(const p of avail){
+   if(used.has(p)||!can[p]||!can[p].includes(pos[i]))continue;
+   used.add(p);cur[pos[i]]=p;
+   rec(i+1,filled+1,score+H[p][pos[i]]);
+   used.delete(p);delete cur[pos[i]];
+  }
+  rec(i+1,filled,score); // 此崗位留空
+ };
+ rec(0,0,0);
+ return best;
+}
+function fillPartial(r,avail){
+ const b=assignPartial(avail);
+ if(!b)return;
+ const a=b.assign;
+ if(a['櫃檯']){r.c=a['櫃檯'];H[r.c]['櫃檯']++}
+ if(a['藥局']){r.ph=a['藥局'];H[r.ph]['藥局']++}
+ if(a['後場']){r.b=a['後場'];H[r.b]['後場']++}
 }
 
 function run(){
@@ -161,28 +1347,30 @@ function run(){
   H[p][r]=+document.getElementById(`h${i}_${r}`).value||0;
  }));
 
- R=[];let warn=[];
+ const WK=weekKey();
+ if(hasManual()&&!confirm('目前崗位表有手動修改或新增列，重新自動排崗會覆蓋這些調整。\n建議先按「暫存崗位表」。確定要重新排崗嗎？'))return;
+ subtractCommit(WK);                 // 同一週重排：先扣掉這週上次已計入的次數，避免重複累加
+ const BASEH=cloneJ(H);
+ EDITS={};ROWS=[0,0,0];SNAPBASE=null;
+ R=[];let warn=[],info=[];
  for(let d=0;d<7;d++)for(let s=0;s<3;s++){
   let names=ALL_WORKERS.filter((p,k)=>document.getElementById(`w${d}_${s}_${k}`).checked);
-  // 依班表由上到下的順位，自動決定當診值班主管
-  const supervisor=SUPERVISOR_PRIORITY.find(p=>names.includes(p)) || '';
-  const ap=document.getElementById(`ap${d}_${s}`).value;
-  const at=document.getElementById(`at${d}_${s}`).value.trim();
-  const ad=(ap&&at)?[{p:ap,t:at}]:[];
-  let blocked=ad.map(x=>x.p);
-  let avail=names.filter(x=>x!=='稜禎'&&!blocked.includes(x));
-  let r={d,s,supervisor,ad,c:null,ph:null,b:null,combo:null};
-  const choose=(list,role)=>[...list].sort((a,b)=>{
-    let diff=H[a][role]-H[b][role];
-    return diff||a.localeCompare(b,'zh-Hant');
-  })[0];
+  const ad=getAdmins(d,s);                     // 該診所有行政事項（可多人、多項）
+  const blocked=ad.map(x=>x.p);                // 有行政事項者：以行政為主，不參與三崗位
+  // 依班表順位決定當診值班主管（行政人員不擔任）
+  const supervisor=SUPERVISOR_PRIORITY.find(p=>names.includes(p)&&!blocked.includes(p)) || '';
+  const avail=names.filter(x=>x!=='稜禎'&&!blocked.includes(x));
+  const label=`${dayLabel(d)}${S[s]}`;
+  let r={d,s,supervisor,ad,c:null,ph:null,b:null,combo:null,extras:[]};
 
   if(avail.length>=3){
-   for(const [role,key] of [['櫃檯','c'],['藥局','ph'],['後場','b']]){
-    let used=[r.c,r.ph,r.b].filter(Boolean);
-    let list=avail.filter(p=>!used.includes(p)&&can[p].includes(role));
-    if(list.length){r[key]=choose(list,role);H[r[key]][role]++}
-    else warn.push(`${D[d]}${S[s]}：${role}無符合條件人員`);
+   const best=assignThree(avail);
+   if(best){
+    r.c=best.c;r.ph=best.ph;r.b=best.b;
+    H[best.c]['櫃檯']++;H[best.ph]['藥局']++;H[best.b]['後場']++;
+   }else{
+    fillPartial(r,avail);
+    warn.push(`${label}：可排人員無法同時滿足櫃檯、藥局、後場的限制，已盡量排入，其餘列在「備」，請手動確認`);
    }
   }else if(avail.length===2){
    let opts=[];
@@ -195,35 +1383,37 @@ function run(){
    if(opts.length){
     r.combo=opts[0].c;r.b=opts[0].b;
     H[r.combo]['櫃檯＋藥局']++;H[r.b]['後場']++;
-   }else warn.push(`${D[d]}${S[s]}：兩人配置不符合限制，請手動安排`);
+   }else{
+    fillPartial(r,avail);
+    warn.push(`${label}：兩人配置不符合限制，已盡量排入，請手動確認`);
+   }
   }else if(avail.length===1){
-   warn.push(`${D[d]}${S[s]}：只有1位可安排人員，請手動處理`);
-  }else if(names.length===0){
-   // 完全沒有勾選，略過不警告
-  }else{
-   warn.push(`${D[d]}${S[s]}：沒有可安排人員`);
+   fillPartial(r,avail);
+   warn.push(`${label}：扣除行政人員後只剩1位可安排人員（${avail[0]}），已先排入可擔任的崗位，請手動確認`);
+  }else if(names.length>0&&!supervisor){
+   warn.push(`${label}：扣除行政人員後沒有可安排人員`);
   }
+  // 任何上班人員都不能憑空消失：沒有排進櫃／藥／後的人，一律列在「備」
+  const placed=new Set([r.c,r.ph,r.b,r.combo].filter(Boolean));
+  r.extras=avail.filter(x=>!placed.has(x));
+  if(r.extras.length)info.push(`${label}：${r.extras.join('、')}`);
+  // 完全沒有勾選上班人員則略過不警告
   R.push(r);
  }
 
- let html='<table><tr><th>日期</th><th>診別</th><th>值班主管</th><th>櫃檯</th><th>藥局</th><th>後場</th><th>行政工作</th></tr>';
- R.filter(r=>r.c||r.ph||r.b||r.combo||r.ad.length).forEach(r=>{
-  html+=`<tr><td>${D[r.d]}</td><td>${S[r.s]}</td><td>${r.supervisor||'—'}</td><td>${r.combo||r.c||'—'}</td><td>${r.combo?'同櫃檯人員':r.ph||'—'}</td><td>${r.b||'—'}</td><td>${r.ad.map(x=>x.p+'：'+x.t).join('<br>')||'—'}</td></tr>`;
- });
- document.getElementById('out').innerHTML=html+'</table>';
- document.getElementById('msg').innerHTML=warn.length?`<b style="color:#b42318">⚠️ ${warn.join('；')}</b>`:`<b style="color:#16803c">✅ 完成！已依限制與歷史次數進行公平分配。</b>`;
+ renderSheet();
+ document.getElementById('msg').innerHTML=warn.length?`<b style="color:#b42318">⚠️ ${warn.join('；')}</b>`:`<b style="color:#16803c">✅ 完成！行政人員已排除，其餘人員已依限制與歷史次數優先補滿三個崗位。</b>`;
+ if(info.length)document.getElementById('msg').innerHTML+=`<div style="margin-top:6px">ℹ️ 以下診次上班人數超過三個崗位，多出的人員已列在崗位表「備」列：${info.join('；')}</div>`;
 
- let C={};P.forEach(p=>C[p]={櫃檯:0,藥局:0,後場:0,'櫃檯＋藥局':0});
- R.forEach(r=>{
-  if(r.combo){C[r.combo]['櫃檯＋藥局']++;if(r.b)C[r.b].後場++}
-  else{if(r.c)C[r.c].櫃檯++;if(r.ph)C[r.ph].藥局++;if(r.b)C[r.b].後場++}
- });
- document.getElementById('stats').innerHTML='<table><tr><th>人員</th><th>櫃檯</th><th>藥局</th><th>後場</th><th>櫃檯＋藥局</th><th>總數</th></tr>'+
- P.map(p=>`<tr><td>${p}</td>${['櫃檯','藥局','後場','櫃檯＋藥局'].map(k=>`<td>${C[p][k]}</td>`).join('')}<td>${Object.values(C[p]).reduce((a,b)=>a+b,0)}</td></tr>`).join('')+'</table>';
- localStorage.setItem('clinicH',JSON.stringify(H));
- drawH();
+ renderStats();
+ commitHistory(WK,BASEH,countFromSheet());
 }
 
+document.getElementById('pdfInput').addEventListener('change',e=>{
+ const f=e.target.files[0];if(!f)return;
+ importPDF(f);
+ e.target.value='';
+});
 document.getElementById('imgInput').addEventListener('change',e=>{
  const file=e.target.files[0]; if(!file)return;
  const img=document.getElementById('preview');
@@ -235,6 +1425,8 @@ function togglePreview(){
  img.style.display=(img.style.display==='none')?'block':'none';
 }
 init();
+renderSheet();
+refreshDraftUI();
 </script>
 </body>
 </html>
