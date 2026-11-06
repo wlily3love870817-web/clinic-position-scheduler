@@ -21,7 +21,6 @@ button.danger{background:#fff1f0;color:var(--red)}
 button.mini{padding:5px 9px;margin:0;font-size:13px;border-radius:7px}
 input[type=file]{display:none}
 .upload{display:inline-block;background:#2457a7;color:#fff;padding:11px 16px;border-radius:9px;cursor:pointer}
-#preview{max-width:100%;max-height:360px;display:none;margin-top:14px;border:1px solid var(--line);border-radius:10px}
 .imp-grid{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:12px}
 .imp-grid label{font-size:14px;color:#475569}
 .imp-grid input,.imp-grid select,.imp-set input{border:1px solid #cbd5e1;border-radius:7px;padding:7px}
@@ -63,6 +62,14 @@ details summary{cursor:pointer;font-weight:bold;color:#475569}
 .info-grid input{width:100%;border:1px solid #cbd5e1;border-radius:7px;padding:6px}
 .info-one{display:block;margin:6px 0;font-size:14px;color:#475569}
 .info-one input{width:100%;border:1px solid #cbd5e1;border-radius:7px;padding:7px;margin-top:4px}
+.fmtbar{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:4px 0;font-size:13px;color:#475569}
+.fmtbar select{border:1px solid #cbd5e1;border-radius:7px;padding:4px 6px}
+.fmtbar input[type=color]{width:34px;height:28px;padding:0;border:1px solid #cbd5e1;border-radius:7px;background:#fff;cursor:pointer}
+.fmtbar .sw{width:20px;height:20px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px #cbd5e1;cursor:pointer;padding:0;margin:0}
+.fmtbar .rst{padding:3px 8px;margin:0;font-size:12px;border-radius:7px}
+.rt{width:100%;min-height:120px;border:1px solid #cbd5e1;border-radius:9px;padding:8px;margin-top:4px;background:#fff;color:#000;font-size:16px;white-space:pre-wrap;word-break:break-all;overflow:auto;outline:none}
+.rt:focus{border-color:#2457a7;box-shadow:0 0 0 2px #dbeafe}
+.rt:empty:before{content:attr(data-ph);color:#94a3b8}
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 @media(max-width:700px){.two-col{grid-template-columns:1fr}}
 textarea.big{width:100%;min-height:120px;border:1px solid #cbd5e1;border-radius:9px;padding:8px;font:inherit;margin-top:4px}
@@ -80,6 +87,20 @@ table.sheet{table-layout:fixed;min-width:960px;font-size:14px;background:#fff}
 .sheet .foot{vertical-align:top;text-align:left;height:120px;font-size:14px}
 .sheet .foot .body{color:#000000;font-weight:600;font-size:16px;white-space:pre-wrap;margin-top:4px}
 
+
+
+.sheet .ed{outline:none;cursor:text}
+.sheet .ed:hover,.sheet .note:hover{background:#fffbe6}
+.sheet .ed:focus,.sheet .note:focus{background:#fff3c4;box-shadow:inset 0 0 0 2px #f59e0b}
+.rowbtns{display:flex;flex-direction:column;gap:4px;margin-top:8px}
+.rowbtns button{font-size:11px;padding:4px 2px;margin:0;border-radius:6px;background:#e0e7ff;color:#1e3a8a;border:0;cursor:pointer}
+.rowbtns button:hover{background:#c7d2fe}
+.draftbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0}
+.draftbar select{padding:9px;border:1px solid #cbd5e1;border-radius:9px;font-size:14px;max-width:100%}
+
+::highlight(nm-c){color:#1f6fd0}
+::highlight(nm-p){color:#111}
+::highlight(nm-b){color:#c55a11}
 .rules{margin:6px 0 12px;background:#f8fafc;border-radius:9px;padding:8px 12px}
 .daytabs{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 12px}
 .daytab{flex:1 0 118px;display:flex;flex-direction:column;align-items:center;gap:7px;background:#eef3fb;color:#334155;border:2px solid transparent;border-radius:12px;padding:10px 8px;margin:0}
@@ -124,16 +145,15 @@ table.sheet{table-layout:fixed;min-width:960px;font-size:14px;background:#fff}
 .shift-card .adminrow input{font-size:15px;padding:8px}
 .shift-card .keywrap{margin-top:14px;padding:10px}
 .shift-card .keywrap .sec-label{margin:0 0 8px;color:#8a6d00}
-
-
-.sheet .ed{outline:none;cursor:text}
-.sheet .ed:hover,.sheet .note:hover{background:#fffbe6}
-.sheet .ed:focus,.sheet .note:focus{background:#fff3c4;box-shadow:inset 0 0 0 2px #f59e0b}
-.rowbtns{display:flex;flex-direction:column;gap:4px;margin-top:8px}
-.rowbtns button{font-size:11px;padding:4px 2px;margin:0;border-radius:6px;background:#e0e7ff;color:#1e3a8a;border:0;cursor:pointer}
-.rowbtns button:hover{background:#c7d2fe}
-.draftbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0}
-.draftbar select{padding:9px;border:1px solid #cbd5e1;border-radius:9px;font-size:14px;max-width:100%}
+.chip em:empty{display:none}
+.roletable{border-collapse:collapse;width:100%;min-width:0;margin-top:8px}
+.roletable th{background:#f1f5f9;padding:8px;font-size:14px;text-align:center}
+.roletable td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:center}
+.roletable td:first-child,.roletable th:first-child{text-align:left;font-weight:bold;white-space:nowrap}
+.roletable tr.sup td{background:#f3f8ff}
+.roletable .chip span{padding:6px 12px;min-height:36px;font-size:15px}
+.roletable small{font-weight:normal;color:#64748b;margin-left:6px}
+.rolebar{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 @media print{
  html,body{margin:0;padding:0;background:#fff}
  header,.box:not(#printBox),.hint,#msg{display:none!important}
@@ -151,8 +171,8 @@ table.sheet{table-layout:fixed;min-width:960px;font-size:14px;background:#fff}
 </head>
 <body>
 <header>
-<h2>🏥 診所公平自動排崗系統</h2>
-<div>匯入月班表 PDF → 自動帶入出勤／行政 → 一鍵公平排崗</div>
+<!-- <h2>🏥 診所公平自動排崗系統</h2>
+<div>匯入月班表 PDF → 自動帶入出勤／行政 → 一鍵公平排崗</div> -->
 </header>
 
 <main>
@@ -179,13 +199,16 @@ table.sheet{table-layout:fixed;min-width:960px;font-size:14px;background:#fff}
 <div id="impMsg" class="notice hint">尚未匯入。匯入後會自動勾選下方各診別的上班人員與行政事項，仍可手動修改。切換「排班週別」會重新帶入該週資料（手動修改會被覆蓋）。</div>
 </div>
 
+
 <div class="box">
-<div class="step">選用</div>
-<h3>📷 上傳月班表圖片（方便對照）</h3>
-<p class="hint">可另外放入班表圖片，操作時對照用（圖片不會自動辨識）。</p>
-<label class="upload">選擇班表圖片<input id="imgInput" type="file" accept="image/*"></label>
-<button class="secondary" onclick="togglePreview()">顯示／隱藏圖片</button>
-<img id="preview" alt="班表預覽">
+<div class="step">STEP 1-2</div>
+<h3>🧩 崗位權限設定（每個人可擔任的崗位）</h3>
+<p class="hint">所有正式人員與當月出現的支援人力，都可以勾選 4 個選項，排班時只會照你勾的來排：<br>
+<b>櫃台／藥局／後場</b>：這個人可以被排進哪些崗位，<b>沒勾的崗位絕不會排給他</b>。<br>
+<b>行政</b>：這個人可以被放在「備」列做行政／其他事項。當天上班超過 3 人時，多出來的人會<b>優先從有勾「行政」的人裡挑</b>，沒勾行政的人會優先補進崗位。<br>
+三個崗位都沒勾（例如稜禎）：只當值班主管或行政，不會排進櫃檯、藥局、後場。設定會存在這個瀏覽器，下次開啟沿用。</p>
+<div id="rolePanel"></div>
+<div class="rolebar"><button type="button" class="secondary" onclick="resetRoles()">↺ 還原預設權限</button></div>
 </div>
 
 <div class="box">
@@ -195,7 +218,7 @@ table.sheet{table-layout:fixed;min-width:960px;font-size:14px;background:#fff}
 <details class="rules">
 <summary>📖 排班規則說明</summary>
 <div class="hint" style="margin-top:6px">
-<b>稜禎</b>可勾選上班，但僅用來判斷值班主管，不會被排到櫃檯、藥局或後場。<br>
+<b>稜禎</b>預設只當值班主管，不會被排到櫃檯、藥局或後場（可在「崗位權限設定」調整每個人可擔任的崗位）。<br>
 值班主管依順位自動決定：稜禎 → 欣蓓 → 湞葶 → 佳怡 → 宜姗 → 博鈴 → 韋誠 → 佳愉 → 建凱 → 雅貞。<br>
 每診上方可編輯<b>醫師</b>（預設為門診表，可改文字與底色），早診與晚診可<b>勾選鑰匙</b>人員。<br>
 <b style="color:#b42318">有行政事項的同仁以行政為主，不會被排入櫃檯、藥局、後場，也不會被當作值班主管；其餘上班人員則優先補滿三個崗位，多出的人會列在「備」。</b>
@@ -216,10 +239,26 @@ table.sheet{table-layout:fixed;min-width:960px;font-size:14px;background:#fff}
 <label class="info-one">每天固定注意事項（整列顯示）
 <input id="noteAll" value="每天早診需檢查【筆電、WIFI(充電)/治療包(用品檢查)】" oninput="refreshSheet()"></label>
 <div class="two-col">
- <label class="info-one">本週待辦事項／重要訊息
- <textarea class="big" id="weekTodo" placeholder="例如：11/4(三)午診清潔：櫃台後方…" oninput="refreshSheet()"></textarea></label>
- <label class="info-one">本週注意事項
- <textarea class="big" id="weekNote" oninput="refreshSheet()">（崗位表及鑰匙人員勿擅自更換）</textarea></label>
+ <div class="info-one">本週待辦事項／重要訊息
+ <div class="fmtbar">選取文字後 → 大小
+   <select onchange="rtSize('weekTodo',this.value)"><option value="12">12px</option><option value="14">14px</option><option value="16" selected>16px</option><option value="18">18px</option><option value="20">20px</option><option value="22">22px</option><option value="24">24px</option><option value="28">28px</option><option value="32">32px</option></select>
+   顏色 <input type="color" value="#d92d20" onchange="rtColor('weekTodo',this.value)">
+   <button type="button" class="sw" style="background:#000000" title="#000000" onmousedown="event.preventDefault()" onclick="rtColor('weekTodo','#000000')"></button><button type="button" class="sw" style="background:#d92d20" title="#d92d20" onmousedown="event.preventDefault()" onclick="rtColor('weekTodo','#d92d20')"></button><button type="button" class="sw" style="background:#2457a7" title="#2457a7" onmousedown="event.preventDefault()" onclick="rtColor('weekTodo','#2457a7')"></button><button type="button" class="sw" style="background:#16803c" title="#16803c" onmousedown="event.preventDefault()" onclick="rtColor('weekTodo','#16803c')"></button><button type="button" class="sw" style="background:#e36c09" title="#e36c09" onmousedown="event.preventDefault()" onclick="rtColor('weekTodo','#e36c09')"></button><button type="button" class="sw" style="background:#7a3cc9" title="#7a3cc9" onmousedown="event.preventDefault()" onclick="rtColor('weekTodo','#7a3cc9')"></button>
+   <button type="button" class="secondary rst" style="font-weight:900" title="粗體" onmousedown="event.preventDefault()" onclick="rtWeight('weekTodo',true)">B 粗體</button>
+   <button type="button" class="secondary rst" style="font-weight:300" title="一般（細體）" onmousedown="event.preventDefault()" onclick="rtWeight('weekTodo',false)">細體</button>
+   <button type="button" class="secondary rst" onmousedown="event.preventDefault()" onclick="rtClear('weekTodo')">清除格式</button></div>
+ <div class="rt" id="weekTodoEd" contenteditable="true" data-ph="例如：11/4(三)午診清潔：櫃台後方…" oninput="rtSync('weekTodo')"></div>
+ <textarea id="weekTodo" hidden></textarea></div>
+ <div class="info-one">本週注意事項
+ <div class="fmtbar">選取文字後 → 大小
+   <select onchange="rtSize('weekNote',this.value)"><option value="12">12px</option><option value="14">14px</option><option value="16" selected>16px</option><option value="18">18px</option><option value="20">20px</option><option value="22">22px</option><option value="24">24px</option><option value="28">28px</option><option value="32">32px</option></select>
+   顏色 <input type="color" value="#d92d20" onchange="rtColor('weekNote',this.value)">
+   <button type="button" class="sw" style="background:#000000" title="#000000" onmousedown="event.preventDefault()" onclick="rtColor('weekNote','#000000')"></button><button type="button" class="sw" style="background:#d92d20" title="#d92d20" onmousedown="event.preventDefault()" onclick="rtColor('weekNote','#d92d20')"></button><button type="button" class="sw" style="background:#2457a7" title="#2457a7" onmousedown="event.preventDefault()" onclick="rtColor('weekNote','#2457a7')"></button><button type="button" class="sw" style="background:#16803c" title="#16803c" onmousedown="event.preventDefault()" onclick="rtColor('weekNote','#16803c')"></button><button type="button" class="sw" style="background:#e36c09" title="#e36c09" onmousedown="event.preventDefault()" onclick="rtColor('weekNote','#e36c09')"></button><button type="button" class="sw" style="background:#7a3cc9" title="#7a3cc9" onmousedown="event.preventDefault()" onclick="rtColor('weekNote','#7a3cc9')"></button>
+   <button type="button" class="secondary rst" style="font-weight:900" title="粗體" onmousedown="event.preventDefault()" onclick="rtWeight('weekNote',true)">B 粗體</button>
+   <button type="button" class="secondary rst" style="font-weight:300" title="一般（細體）" onmousedown="event.preventDefault()" onclick="rtWeight('weekNote',false)">細體</button>
+   <button type="button" class="secondary rst" onmousedown="event.preventDefault()" onclick="rtClear('weekNote')">清除格式</button></div>
+ <div class="rt" id="weekNoteEd" contenteditable="true" oninput="rtSync('weekNote')"></div>
+ <textarea id="weekNote" hidden>（崗位表及鑰匙人員勿擅自更換）</textarea></div>
 </div>
 </div>
 
@@ -229,6 +268,7 @@ table.sheet{table-layout:fixed;min-width:960px;font-size:14px;background:#fff}
 <div class="actions">
 <button onclick="run()">⚡ 自動公平排崗</button>
 <button class="secondary" onclick="printSheet()">🖨️ 列印／存 PDF</button>
+<button class="secondary" id="pngBtn" onclick="exportPNG()">🖼️ 產生 A4 圖檔 (PNG)</button>
 <button class="secondary" onclick="clearWeek()">🧹 清空本週勾選</button>
 </div>
 <div id="msg" class="notice hint">請先匯入班表，或手動勾選各診別上班人員。</div>
@@ -286,7 +326,7 @@ table.sheet{table-layout:fixed;min-width:960px;font-size:14px;background:#fff}
 <script>
 if(window.pdfjsLib){pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';}
 
-const P=['欣蓓','湞葶','佳怡','宜姗','博鈴','韋誠','佳愉','建凱','雅貞'];
+const P=['稜禎','欣蓓','湞葶','佳怡','宜姗','博鈴','韋誠','佳愉','建凱','雅貞'];
 const ALL_WORKERS=['稜禎','欣蓓','湞葶','佳怡','宜姗','博鈴','韋誠','佳愉','建凱','雅貞'];
 // 值班主管順位：稜禎不納入一般崗位，但若當診有上班可優先擔任值班主管
 const SUPERVISOR_PRIORITY=['稜禎','欣蓓','湞葶','佳怡','宜姗','博鈴','韋誠','佳愉','建凱','雅貞'];
@@ -595,7 +635,7 @@ function updateOverview(){
    let n=0,work=0;
    ALL_WORKERS.forEach((p,k)=>{
     const e=document.getElementById(`w${d}_${s}_${k}`);
-    if(e&&e.checked){work++;if(p!=='稜禎'&&!blocked.includes(p))n++}
+    if(e&&e.checked){work++;if((can[p]||[]).length&&!blocked.includes(p))n++}
    });
    const adm=blocked.length;
    const cls=n>=3?'ok':(work+adm>0?'low':'none');
@@ -610,11 +650,69 @@ function updateOverview(){
  }
 }
 
+/* ---------- 崗位權限（櫃台／藥局／後場／行政）---------- */
+const POS3=['櫃檯','藥局','後場'];
+const ROLE_COLS=['櫃檯','藥局','後場','行政'];
+const ROLE_LABEL={'櫃檯':'櫃台','藥局':'藥局','後場':'後場','行政':'行政'};
+const DEFAULT_ROLE={
+ '稜禎':['行政'],
+ '欣蓓':['櫃檯','藥局','後場','行政'],'湞葶':['櫃檯','藥局','後場','行政'],
+ '佳怡':['櫃檯','藥局','後場','行政'],'宜姗':['櫃檯','藥局','後場','行政'],
+ '博鈴':['櫃檯','藥局','後場','行政'],'佳愉':['櫃檯','藥局','後場','行政'],
+ '韋誠':['櫃檯','藥局','行政'],'建凱':['櫃檯','藥局','行政'],
+ '雅貞':['藥局','後場','行政']
+};
+let ROLES=readLS('clinicRoles','{}');
+const ADM_OK={};
+function getRoles(n){
+ if(Array.isArray(ROLES[n]))return ROLES[n];
+ if(DEFAULT_ROLE[n])return DEFAULT_ROLE[n];
+ const sv=readLS('clinicSupportCan','{}');            // 舊版支援人力設定（相容）
+ return Array.isArray(sv[n])?sv[n].slice():POS3.slice(); // 支援人力預設：三個崗位都可、不做行政
+}
+function syncRoles(){
+ ALL_WORKERS.forEach(n=>{
+  const r=getRoles(n);
+  can[n]=POS3.filter(x=>r.includes(x));
+  ADM_OK[n]=r.includes('行政');
+ });
+}
+syncRoles();
+function roleTag(p){
+ if((can[p]||[]).length===0)return p==='稜禎'?'僅主管':'無崗位';
+ return isSup(p)?'支援':'';
+}
+function refreshRoleTags(){
+ document.querySelectorAll('.rtag').forEach(e=>{e.textContent=roleTag(e.dataset.n)});
+}
+function setRole(el){
+ const n=el.dataset.n,r=el.dataset.r;
+ let a=getRoles(n).filter(x=>x!==r);
+ if(el.checked)a.push(r);
+ ROLES[n]=ROLE_COLS.filter(x=>a.includes(x));
+ writeLS('clinicRoles',ROLES);
+ syncRoles();refreshRoleTags();updateOverview();
+}
+function resetRoles(){
+ if(!confirm('要把所有人員的崗位權限還原成預設嗎？'))return;
+ ROLES={};writeLS('clinicRoles',ROLES);
+ syncRoles();renderRolePanel();refreshRoleTags();updateOverview();
+}
+function renderRolePanel(){
+ const el=document.getElementById('rolePanel');if(!el)return;
+ el.innerHTML='<div class="scroll"><table class="roletable"><tr><th>人員</th>'+ROLE_COLS.map(c=>`<th>${ROLE_LABEL[c]}</th>`).join('')+'</tr>'+
+  ALL_WORKERS.map(n=>{
+   const r=getRoles(n),sup=SUPLIST.find(x=>x.name===n);
+   return `<tr class="${sup?'sup':''}"><td>${esc(n)}${sup?`<small>支援${sup.from?'・'+esc(sup.from):''}</small>`:''}${n==='稜禎'?'<small>值班主管</small>':''}</td>`+
+    ROLE_COLS.map(c=>`<td><label class="chip${c==='行政'?' key':''}"><input type="checkbox" data-n="${esc(n)}" data-r="${c}" ${r.includes(c)?'checked':''} onchange="setRole(this)"><span>${ROLE_LABEL[c]}</span></label></td>`).join('')+'</tr>';
+  }).join('')+'</table></div>';
+}
+
 /* ---------- 支援人力（其他院所支援，班表下方藍字） ---------- */
 let SUPLIST=[];   // [{name:顯示名, full:全名, from:所屬院所}]
 const isSup=n=>SUPLIST.some(x=>x.name===n);
 function workChips(i,j){
- return ALL_WORKERS.map((p,k)=>`<label class="chip"><input class="work" type="checkbox" id="w${i}_${j}_${k}" onchange="updateOverview()"><span>${p}${p==='稜禎'?'<em>僅主管</em>':isSup(p)?'<em>支援</em>':''}</span></label>`).join('');
+ return ALL_WORKERS.map((p,k)=>`<label class="chip"><input class="work" type="checkbox" id="w${i}_${j}_${k}" onchange="updateOverview()"><span>${p}<em class="rtag" data-n="${esc(p)}">${roleTag(p)}</em></span></label>`).join('');
 }
 function keyChips(i,j){
  return ALL_WORKERS.slice(0,BASE_N).map((p,k)=>`<label class="chip key"><input class="keyck" type="checkbox" id="k${i}_${j}_${k}" onchange="refreshSheet()"><span>${p}</span></label>`).join('');
@@ -637,25 +735,20 @@ function setSupport(list){
   if(!ALL_WORKERS.includes(x.name)){ALL_WORKERS.push(x.name);P.push(x.name)}
   H[x.name]??={'櫃檯':0,'藥局':0,'後場':0,'櫃檯＋藥局':0};
   HK.forEach(k=>{if(H[x.name][k]===undefined)H[x.name][k]=0});
-  can[x.name]=Array.isArray(saved[x.name])?saved[x.name]:['櫃檯','藥局','後場'];
  });
+ syncRoles();
  if(!same)rebuildPeople();
  drawH();renderSupPanel();
 }
-function setSupCan(el,pos){
- const n=el.dataset.n;
- const a=(can[n]||[]).filter(x=>x!==pos);
- if(el.checked)a.push(pos);
- can[n]=['櫃檯','藥局','後場'].filter(x=>a.includes(x));
- const saved=readLS('clinicSupportCan','{}');saved[n]=can[n];writeLS('clinicSupportCan',saved);
-}
 function renderSupPanel(){
- const el=document.getElementById('supPanel');if(!el)return;
- if(!SUPLIST.length){el.innerHTML='';return}
- el.innerHTML='<div class="notice" style="background:#eef6ff;border:1px solid #bfd7f3"><b>🤝 支援人力</b><span class="hint">（班表下方藍字、其他院所支援；支援班別在其所在列以藍色格子標示，數字＝該診上班，會和正式人員一起排入櫃檯、藥局、後場）</span>'+
-  SUPLIST.map(x=>`<div style="margin-top:8px"><b>${esc(x.name)}</b> <span class="hint">${esc(x.full)}${x.from?`・${esc(x.from)}支援`:''}　可擔任：</span>`+
-   ['櫃檯','藥局','後場'].map(pos=>`<label style="margin-right:12px;font-size:14px;cursor:pointer"><input type="checkbox" data-n="${esc(x.name)}" ${(can[x.name]||[]).includes(pos)?'checked':''} onchange="setSupCan(this,'${pos}')"> ${pos}</label>`).join('')+'</div>').join('')+
-  '<div class="hint" style="margin-top:6px">勾選可調整每位支援人員能被排入的崗位（修改後下次「自動公平排崗」生效）。</div></div>';
+ const el=document.getElementById('supPanel');
+ if(el){
+  el.innerHTML=SUPLIST.length?'<div class="notice" style="background:#eef6ff;border:1px solid #bfd7f3"><b>🤝 本月支援人力：</b>'+
+   SUPLIST.map(x=>`${esc(x.name)}<span class="hint">（${esc(x.full)}${x.from?`・${esc(x.from)}支援`:''}）</span>`).join('、')+
+   '<div class="hint" style="margin-top:6px">支援班別在其所在列以藍色格子標示，數字＝該診上班，會和正式人員一起排入崗位。可擔任的崗位請到下方「崗位權限設定」調整。</div></div>':'';
+ }
+ renderRolePanel();
+ if(typeof refreshHighlights==='function')refreshHighlights();
 }
 
 function init(){
@@ -871,9 +964,90 @@ function applyWeek(){
 
 /* ---------- 崗位表（比照班表圖片格式） ---------- */
 const esc2=s=>esc(s).replace(/\n/g,'<br>');
+/* ---------- 備註格人員辨識：輸入正式人員／支援人力姓名 → 該姓名改用崗位顏色，其餘維持紅字 ---------- */
+const POS_COLOR={c:'#1f6fd0',p:'#111',b:'#c55a11'};   // 櫃台／藥局／後場
+const HL_OK=typeof CSS!=='undefined'&&!!CSS.highlights&&typeof Highlight!=='undefined';
+let _nr=null,_nk='';
+function nameRegex(){
+ const names=new Set(ALL_WORKERS);                       // 正式人員（含稜禎）＋當月支援人力
+ SUPLIST.forEach(x=>{if(x.full)names.add(x.full)});     // 支援人力的全名也辨識
+ const arr=[...names].filter(Boolean).sort((x,y)=>y.length-x.length);
+ const k=arr.join('|');
+ if(k!==_nk){
+  _nk=k;
+  _nr=arr.length?new RegExp(arr.map(s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|'),'g'):null;
+ }
+ return _nr;
+}
+// 產生帶顏色的 HTML（只有姓名上色，其他文字維持紅字）
+function hlHTML(text,pos){
+ const re=nameRegex();
+ text=String(text||'');
+ if(!re)return esc2(text);
+ let out='',last=0,m;
+ re.lastIndex=0;
+ while((m=re.exec(text))){
+  out+=esc2(text.slice(last,m.index))+`<span style="color:${POS_COLOR[pos]}">${esc(m[0])}</span>`;
+  last=m.index+m[0].length;
+ }
+ return out+esc2(text.slice(last));
+}
+// 輸入當下即時上色（CSS Custom Highlight API，不改動輸入框內容，所以游標不會亂跳）
+function refreshHighlights(){
+ if(!HL_OK)return;
+ const re=nameRegex();
+ const rg={c:[],p:[],b:[]};
+ if(re){
+  document.querySelectorAll('#out td.note[data-pos]').forEach(td=>{
+   const w=document.createTreeWalker(td,NodeFilter.SHOW_TEXT);
+   let n;
+   while((n=w.nextNode())){
+    re.lastIndex=0;
+    let m;
+    while((m=re.exec(n.nodeValue))){
+     const r=document.createRange();
+     r.setStart(n,m.index);r.setEnd(n,m.index+m[0].length);
+     rg[td.dataset.pos].push(r);
+    }
+   }
+  });
+ }
+ ['c','p','b'].forEach(k=>CSS.highlights.set('nm-'+k,new Highlight(...rg[k])));
+}
+// 列印前把顏色「烙」進文字（確保 PDF／紙本一定有顏色）；列印後還原
+function bakeNotes(on){
+ document.querySelectorAll('#out td.note[data-pos]').forEach(td=>{
+  const v=noteVal(td.dataset.note);
+  td.innerHTML=(on||!HL_OK)?hlHTML(v,td.dataset.pos):esc2(v);
+ });
+ if(!on)refreshHighlights();
+}
+window.addEventListener('beforeprint',()=>bakeNotes(true));
+window.addEventListener('afterprint',()=>bakeNotes(false));
+document.addEventListener('input',e=>{
+ const t=e.target;
+ if(t&&t.dataset&&t.dataset.pos!==undefined)refreshHighlights();
+});
+document.addEventListener('focusout',e=>{
+ const t=e.target;
+ // 不支援即時上色的瀏覽器：離開輸入格時再上色
+ if(!HL_OK&&t&&t.dataset&&t.dataset.pos!==undefined)t.innerHTML=hlHTML(noteVal(t.dataset.note),t.dataset.pos);
+});
+
+// 備註格預設內容（key＝日_診_崗位；日：0=週一…6=週日；診：0早 1午 2晚；崗位：c櫃台 p藥局 b後場）
+const DEFAULT_NOTES={
+ '2_0_p':'集塵袋',   // 週三 早診 藥局
+ '5_0_p':'集塵袋',   // 週六 早診 藥局
+ '1_2_b':'棄針'      // 週二 晚診 後場
+};
+// 取值：使用者改過（含清空）就用使用者的，沒改過就用預設
+const noteVal=key=>NOTES[key]!==undefined?NOTES[key]:(DEFAULT_NOTES[key]||'');
 function noteCell(key,cls){
- const v=NOTES[key]!==undefined?NOTES[key]:'';
- return `<td class="note ${cls||''}" contenteditable="true" data-note="${key}">${esc2(v)}</td>`;
+ const v=noteVal(key);
+ const pos=key.split('_')[2];
+ const isPos=pos==='c'||pos==='p'||pos==='b';
+ const html=(isPos&&!HL_OK)?hlHTML(v,pos):esc2(v);
+ return `<td class="note ${cls||''}" contenteditable="true" data-note="${key}"${isPos?` data-pos="${pos}"`:''}>${html}</td>`;
 }
 // 人員欄位：可直接編輯，修改後存在 EDITS，不會被重新繪製洗掉
 function ecell(key,cls,base,colspan){
@@ -891,7 +1065,7 @@ function baseCell(d,s,pos){
  if(!r)return '';
  if(pos==='sup')return r.supervisor||'';
  if(pos==='c')return r.combo||r.c||'';
- if(pos==='p')return r.combo?'（同櫃檯）':(r.ph||'');
+ if(pos==='p')return r.combo?r.combo:(r.ph||'');   // 同一人兼櫃檯＋藥局：藥局格直接顯示該人員姓名
  return r.b||'';
 }
 function cellText(d,s,pos){
@@ -954,8 +1128,9 @@ function renderSheet(){
  }
  h+=`<tr><td colspan="2" class="lbl">注意事項</td><td colspan="14" class="red" style="text-align:center">${esc2(gv('noteAll'))}</td></tr>`;
  h+=`<tr><td colspan="2" class="lbl">注意事項</td>${days.map(i=>`<td colspan="2" class="red">${esc2(gv('dayNt'+i))}</td>`).join('')}</tr>`;
- h+=`<tr><td colspan="8" class="foot"><b>本週待辦事項/重要訊息：</b><div class="body">${esc(gv('weekTodo'))}</div></td><td colspan="8" class="foot"><b>本週注意事項：</b><div class="body">${esc(gv('weekNote'))}</div></td></tr>`;
+ h+=`<tr><td colspan="8" class="foot"><b>本週待辦事項/重要訊息：</b><div class="body">${gv('weekTodo')}</div></td><td colspan="8" class="foot"><b>本週注意事項：</b><div class="body">${gv('weekNote')}</div></td></tr>`;
  out.innerHTML=h+'</table>';
+ refreshHighlights();
 }
 
 /* ---------- 依「目前崗位表（含手動修改）」統計 ---------- */
@@ -963,9 +1138,12 @@ const namesIn=text=>P.filter(q=>String(text||'').includes(q));
 function countFromSheet(){
  const C={};P.forEach(q=>C[q]={'櫃檯':0,'藥局':0,'後場':0,'櫃檯＋藥局':0});
  for(let d=0;d<7;d++)for(let s=0;s<3;s++){
-  const c=namesIn(cellText(d,s,'c')),ph=String(cellText(d,s,'p')||''),b=namesIn(cellText(d,s,'b'));
-  if(ph.includes('同櫃檯')){c.forEach(q=>C[q]['櫃檯＋藥局']++)}
-  else{c.forEach(q=>C[q]['櫃檯']++);namesIn(ph).forEach(q=>C[q]['藥局']++)}
+  const c=namesIn(cellText(d,s,'c')),b=namesIn(cellText(d,s,'b'));
+  const phTxt=String(cellText(d,s,'p')||'');
+  const ph=phTxt.includes('同櫃檯')?c:namesIn(phTxt);      // 相容舊暫存裡的「（同櫃檯）」文字
+  // 同一個人同時出現在櫃檯與藥局 ＝ 兼任（櫃檯＋藥局），只算一次兼任；其餘各算各的崗位
+  c.forEach(q=>{if(ph.includes(q))C[q]['櫃檯＋藥局']++;else C[q]['櫃檯']++});
+  ph.forEach(q=>{if(!c.includes(q))C[q]['藥局']++});
   b.forEach(q=>C[q]['後場']++);
  }
  return C;
@@ -1304,6 +1482,7 @@ function applySnapshot(sn,label){
  (f.imp||[]).forEach((v,i)=>{const e=document.getElementById('dayImp'+i);if(e)e.value=v});
  (f.nt||[]).forEach((v,i)=>{const e=document.getElementById('dayNt'+i);if(e)e.value=v});
  [['noteAll',f.all],['weekTodo',f.todo],['weekNote',f.note]].forEach(([id,v])=>{const e=document.getElementById(id);if(e&&v!==undefined)e.value=v});
+ RT_IDS.forEach(id=>rtLoad(id,document.getElementById(id).value));
  renderSheet();renderStats();
  document.getElementById('msg').innerHTML=`<b style="color:#16803c">📂 已載入「${esc(label)}」，可繼續編輯，改完再按「暫存」會存成新的一份。</b>`;
 }
@@ -1380,7 +1559,159 @@ function unfitPrint(){
  if(t){t.style.zoom='';t.style.width='';t.style.height='';t.style.transform='';t.style.transformOrigin=''}
  if(o){o.style.height='';o.style.overflow=''}
 }
-function printSheet(){fitPrint();window.print()}
+function printSheet(){bakeNotes(true);fitPrint();window.print()}
+
+/* ---------- 本週待辦／注意事項：選取文字後調整大小與顏色 ---------- */
+const RT_IDS=['weekTodo','weekNote'];
+const RT_RANGE={};
+function rtEd(id){return document.getElementById(id+'Ed')}
+function rtSanitize(root){
+ const okColor=c=>/^(#[0-9a-f]{3,8}|rgba?\([\d\s,.]+\))$/i.test(c||'');
+ const okSize=z=>/^\d+(\.\d+)?px$/.test(z||'');
+ const tail=o=>o.endsWith('<br>');
+ function walk(n){
+  let o='';
+  n.childNodes.forEach(c=>{
+   if(c.nodeType===3){o+=esc(c.nodeValue.replace(/\u00a0/g,' '));return}
+   if(c.nodeType!==1)return;
+   const tg=c.tagName;
+   if(tg==='BR'){o+='<br>';return}
+   if(tg==='DIV'||tg==='P'){
+    if(o&&!tail(o))o+='<br>';
+    o+=walk(c);return;
+   }
+   const inner=walk(c);
+   if(!inner)return;
+   let color=c.style&&c.style.color||(tg==='FONT'?c.getAttribute('color'):'');
+   let size=c.style&&c.style.fontSize||'';
+   let fw=c.style&&c.style.fontWeight||'';
+   const st=[];
+   if(fw){const n=fw==='bold'||fw==='bolder'?700:fw==='normal'||fw==='lighter'?400:parseInt(fw,10);
+    if(n)st.push('font-weight:'+(n>=600?700:400));}
+   if(okSize(size))st.push('font-size:'+size);
+   if(okColor(color))st.push('color:'+color);
+   o+=st.length?`<span style="${st.join(';')}">${inner}</span>`:inner;
+  });
+  return o;
+ }
+ return walk(root).replace(/(<br>)+$/,'');
+}
+function rtSync(id){
+ const ed=rtEd(id),t=document.getElementById(id);
+ t.value=rtSanitize(ed);
+ refreshSheet();
+}
+function rtLoad(id,v){
+ const ed=rtEd(id),t=document.getElementById(id);
+ if(!ed)return;
+ v=v||'';
+ ed.innerHTML=/<(span|br)\b/i.test(v)?v:esc2(v);   // 舊的純文字記錄也能載入
+ t.value=rtSanitize(ed);
+}
+function rtSaveRange(id){
+ const sel=window.getSelection(),ed=rtEd(id);
+ if(sel.rangeCount&&ed.contains(sel.anchorNode))RT_RANGE[id]=sel.getRangeAt(0).cloneRange();
+}
+function rtRestore(id){
+ const ed=rtEd(id),r=RT_RANGE[id];
+ ed.focus();
+ if(r){const sel=window.getSelection();sel.removeAllRanges();sel.addRange(r)}
+ return window.getSelection().rangeCount&&!window.getSelection().isCollapsed;
+}
+function rtColor(id,c){
+ if(!rtRestore(id)){alert('請先用滑鼠選取要變色的文字');return}
+ document.execCommand('styleWithCSS',false,true);
+ document.execCommand('foreColor',false,c);
+ rtSaveRange(id);rtSync(id);
+}
+function rtSize(id,px){
+ if(!rtRestore(id)){alert('請先用滑鼠選取要調整大小的文字');return}
+ document.execCommand('styleWithCSS',false,true);
+ document.execCommand('fontSize',false,'7');
+ const ed=rtEd(id);
+ ed.querySelectorAll('font[size="7"]').forEach(f=>{const sp=document.createElement('span');sp.style.fontSize=px+'px';while(f.firstChild)sp.appendChild(f.firstChild);f.replaceWith(sp)});
+ ed.querySelectorAll('span').forEach(sp=>{if(/xxx-large/.test(sp.style.fontSize))sp.style.fontSize=px+'px'});
+ rtSaveRange(id);rtSync(id);
+}
+function rtWeight(id,bold){
+ if(!rtRestore(id)){alert('請先用滑鼠選取要調整粗細的文字');return}
+ const sel=window.getSelection(),r=sel.getRangeAt(0);
+ const frag=r.extractContents();
+ frag.querySelectorAll('span').forEach(x=>{x.style.fontWeight=''});   // 內層舊的粗細設定讓位給新的
+ const sp=document.createElement('span');
+ sp.style.fontWeight=bold?'700':'400';
+ sp.appendChild(frag);
+ r.insertNode(sp);
+ const nr=document.createRange();nr.selectNodeContents(sp);
+ sel.removeAllRanges();sel.addRange(nr);
+ rtSaveRange(id);rtSync(id);
+}
+function rtClear(id){
+ if(!rtRestore(id)){alert('請先選取要還原的文字');return}
+ document.execCommand('removeFormat');
+ rtSaveRange(id);rtSync(id);
+}
+document.addEventListener('selectionchange',()=>RT_IDS.forEach(rtSaveRange));
+document.addEventListener('paste',e=>{
+ const t=e.target;
+ if(t&&t.classList&&t.classList.contains('rt')){
+  e.preventDefault();
+  document.execCommand('insertText',false,(e.clipboardData||window.clipboardData).getData('text/plain'));
+ }
+});
+window.addEventListener('DOMContentLoaded',()=>RT_IDS.forEach(id=>{
+ const t=document.getElementById(id);rtLoad(id,t.value);
+}));
+
+/* ---------- 產生 A4 圖檔（PNG） ---------- */
+function loadScript(src){
+ return new Promise((ok,no)=>{const s=document.createElement('script');s.src=src;s.onload=ok;s.onerror=()=>no(new Error('無法載入 '+src));document.head.appendChild(s)});
+}
+async function exportPNG(){
+ const src=document.querySelector('#out table.sheet');
+ if(!src){alert('請先排班產生崗位表');return}
+ const btn=document.getElementById('pngBtn'),old=btn.textContent;
+ btn.disabled=true;btn.textContent='⏳ 產生中…';
+ let holder;
+ try{
+  if(!window.html2canvas)await loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
+  if(document.fonts&&document.fonts.ready)await document.fonts.ready;
+  bakeNotes(true);                       // 先把顏色烙進文字
+  const t=src.cloneNode(true);
+  bakeNotes(false);
+  t.querySelectorAll('[contenteditable]').forEach(e=>e.removeAttribute('contenteditable'));
+  t.querySelectorAll('.noprint').forEach(e=>e.remove());
+  holder=document.createElement('div');
+  holder.style.cssText='position:fixed;left:-10000px;top:0;background:#fff;padding:0;margin:0';
+  document.body.appendChild(holder);holder.appendChild(t);
+  // 依 A4 可用區（200×287mm）調整比例，與列印版相同
+  const ratio=287/200;
+  let w=960;t.style.width=w+'px';t.style.minWidth='0';t.style.height='';
+  const h0=t.offsetHeight;
+  if(h0/w<ratio){t.style.height=(w*ratio)+'px'}
+  else{w=Math.ceil(h0/ratio);t.style.width=w+'px';t.style.height=(w*ratio)+'px'}
+  const W=2480,H=3508,M=Math.round(5/25.4*300);       // A4 @300dpi，邊界 5mm
+  const k=(W-2*M)/w;
+  const cv=await html2canvas(t,{scale:k,backgroundColor:'#ffffff',useCORS:true,logging:false});
+  const out=document.createElement('canvas');out.width=W;out.height=H;
+  const cx=out.getContext('2d');cx.fillStyle='#fff';cx.fillRect(0,0,W,H);
+  const dw=W-2*M,dh=Math.min(H-2*M,cv.height*dw/cv.width);
+  cx.drawImage(cv,M,M,dw,dh);
+  let name='週班表';
+  try{const wk=weekKey();if(wk)name+='_'+String(wk).replace(/[\\\/:*?"<>|\s]+/g,'-')}catch(e){}
+  out.toBlob(b=>{
+   const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name+'.png';
+   document.body.appendChild(a);a.click();a.remove();
+   setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+  },'image/png');
+ }catch(e){
+  alert('產生圖檔失敗：'+e.message);
+ }finally{
+  if(holder)holder.remove();
+  btn.disabled=false;btn.textContent=old;
+ }
+}
+
 window.addEventListener('beforeprint',fitPrint);
 window.addEventListener('afterprint',unfitPrint);
 
@@ -1395,15 +1726,35 @@ const pen=(p,pos)=>(LAST[p]&&LAST[p].includes(pos))?REPEAT_PEN:0;
 // 支援人力「崗位均衡」：同一位支援人員在自己可擔任的崗位之間，次數要盡量接近。
 // 若某崗位次數已比自己最少的崗位多，就加重罰分（每多 1 次罰 WSUP 分），
 // 這樣不會出現「櫃檯1、藥局0、後場9」這種一直被排在同一崗位的情況。
-const WSUP=6;
+const WSUP=30,WREG=3,BAL_CAP=5,BAL_CAP_SUP=10;
+// 崗位均衡：同一個人在「自己被允許的崗位」之間，次數要盡量接近（支援人力權重較重）。
+// 某崗位比自己最少的崗位多幾次，就罰幾倍分（正式人員最多算 5 次、支援人力最多算 10 次，避免剛開放新崗位時一直只排那一個）。
 function supPen(p,pos){
- if(!isSup(p))return 0;
  const ok=(can[p]||[]);
- if(!ok.includes(pos))return 0;
+ if(ok.length<2||!ok.includes(pos)||!H[p])return 0;
  const B=x=>(H[p][x]||0)+(x!=='後場'?(H[p]['櫃檯＋藥局']||0):0);   // 兼任櫃檯＋藥局算櫃檯與藥局各一次
  const mn=Math.min(...ok.map(B));
- return WSUP*(B(pos)-mn);
+ return isSup(p)?WSUP*Math.min(B(pos)-mn,BAL_CAP_SUP):WREG*Math.min(B(pos)-mn,BAL_CAP);
 }
+// 當天人數超過 3 人時，誰變成「備（行政）」：沒勾行政的人重罰，有勾行政的人則輪流（本週已當過備的人較不優先）
+const EXTRA_PEN=1000,XW=2;   // 沒勾「行政」的人幾乎不會變成備（除非全員都沒勾行政）
+function extraCost(avail,placed,skipIdx){
+ let v=0;
+ for(const e of avail){
+  if(placed.has(e))continue;
+  if(!ADM_OK[e]){v+=EXTRA_PEN;continue}
+  let xc=0;
+  R.forEach((r,i)=>{if(i!==skipIdx&&r.extras&&r.extras.includes(e))xc++});
+  v+=XW*xc;
+ }
+ return v;
+}
+const uncoveredPos=avail=>POS3.filter(pos=>!avail.some(q=>(can[q]||[]).includes(pos)));
+const whyText=avail=>{const u=uncoveredPos(avail);return u.length?`目前上班人員中沒有人被設定可擔任「${u.join('、')}」（請到「崗位權限設定」檢查，或手動調整）`:'可擔任崗位的限制互相衝突'};
+const recomputeExtras=r=>{
+ const placed=new Set([r.c,r.ph,r.b,r.combo].filter(Boolean));
+ r.extras=(r.avail||[]).filter(x=>!placed.has(x)).concat(r.fx||[]);
+};
 function noteLast(r){
  [['c','櫃檯'],['ph','藥局'],['b','後場']].forEach(([k,pos])=>{if(r[k])LAST[r[k]]=[pos]});
  if(r.combo)LAST[r.combo]=['櫃檯','藥局'];
@@ -1447,14 +1798,15 @@ function slotOptions(r){
  }
  return o;
 }
-function optCost(o,idx){
+function optCost(o,idx,avail){
  if(o.combo){
   return H[o.combo]['櫃檯＋藥局']+H[o.b]['後場']+supPen(o.combo,'櫃檯')+supPen(o.combo,'藥局')+supPen(o.b,'後場')
    +neighPen(idx,o.combo,['櫃檯','藥局'])+neighPen(idx,o.b,['後場']);
  }
  return H[o.c]['櫃檯']+H[o.ph]['藥局']+H[o.b]['後場']
   +supPen(o.c,'櫃檯')+supPen(o.ph,'藥局')+supPen(o.b,'後場')
-  +neighPen(idx,o.c,['櫃檯'])+neighPen(idx,o.ph,['藥局'])+neighPen(idx,o.b,['後場']);
+  +neighPen(idx,o.c,['櫃檯'])+neighPen(idx,o.ph,['藥局'])+neighPen(idx,o.b,['後場'])
+  +((avail||[]).length>3?extraCost(avail,new Set([o.c,o.ph,o.b]),idx):0);
 }
 const optKey=o=>o.combo?`C|${o.combo}|${o.b}`:`${o.c}|${o.ph}|${o.b}`;
 function refineWeek(){
@@ -1468,20 +1820,18 @@ function refineWeek(){
    const curKey=optKey(r);
    let best=null,curCost=null;
    for(const o of opts){
-    o.cost=optCost(o,idx);
+    o.cost=optCost(o,idx,r.avail);
     if(optKey(o)===curKey)curCost=o.cost;
     if(!best||o.cost<best.cost)best=o;
    }
    if(curCost!==null&&best.cost>=curCost-1e-9)best=null;   // 沒有更好就維持原排法
    if(best){r.c=best.c;r.ph=best.ph;r.b=best.b;r.combo=best.combo;changed=true}
    place(r);
+   recomputeExtras(r);
   });
   if(!changed)break;
  }
- R.forEach(r=>{
-  const placed=new Set([r.c,r.ph,r.b,r.combo].filter(Boolean));
-  r.extras=(r.avail||[]).filter(x=>!placed.has(x));
- });
+ R.forEach(recomputeExtras);
 }
 
 function assignThree(avail){
@@ -1489,7 +1839,7 @@ function assignThree(avail){
  for(const c of avail)for(const ph of avail)for(const b of avail){
   if(c===ph||c===b||ph===b)continue;
   if(!can[c].includes('櫃檯')||!can[ph].includes('藥局')||!can[b].includes('後場'))continue;
-  const score=H[c]['櫃檯']+H[ph]['藥局']+H[b]['後場']+pen(c,'櫃檯')+pen(ph,'藥局')+pen(b,'後場')+supPen(c,'櫃檯')+supPen(ph,'藥局')+supPen(b,'後場');
+  const score=H[c]['櫃檯']+H[ph]['藥局']+H[b]['後場']+pen(c,'櫃檯')+pen(ph,'藥局')+pen(b,'後場')+supPen(c,'櫃檯')+supPen(ph,'藥局')+supPen(b,'後場')+(avail.length>3?extraCost(avail,new Set([c,ph,b]),-1):0);
   if(!best||score<best.score)best={c,ph,b,score};
  }
  return best;
@@ -1542,9 +1892,10 @@ function run(){
   const blocked=ad.map(x=>x.p);                // 有行政事項者：以行政為主，不參與三崗位
   // 依班表順位決定當診值班主管（行政人員不擔任）
   const supervisor=SUPERVISOR_PRIORITY.find(p=>names.includes(p)&&!blocked.includes(p)) || '';
-  const avail=names.filter(x=>x!=='稜禎'&&!blocked.includes(x));
+  const avail=names.filter(x=>(can[x]||[]).length>0&&!blocked.includes(x));      // 有崗位權限者才參與排崗
+  const fx=names.filter(x=>(can[x]||[]).length===0&&!blocked.includes(x)&&x!==supervisor);  // 沒有任何崗位權限（僅行政）者：直接列「備」
   const label=`${dayLabel(d)}${S[s]}`;
-  let r={d,s,supervisor,ad,c:null,ph:null,b:null,combo:null,extras:[],avail:avail.slice(),opt:false};
+  let r={d,s,supervisor,ad,c:null,ph:null,b:null,combo:null,extras:[],avail:avail.slice(),fx,opt:false};
 
   if(avail.length>=3){
    const best=assignThree(avail);
@@ -1553,7 +1904,7 @@ function run(){
     H[best.c]['櫃檯']++;H[best.ph]['藥局']++;H[best.b]['後場']++;
    }else{
     fillPartial(r,avail);
-    warn.push(`${label}：可排人員無法同時滿足櫃檯、藥局、後場的限制，已盡量排入，其餘列在「備」，請手動確認`);
+    warn.push(`${label}：${whyText(avail)}，已盡量排入，其餘列在「備」，請手動確認`);
    }
   }else if(avail.length===2){
    let opts=[];
@@ -1568,7 +1919,7 @@ function run(){
     H[r.combo]['櫃檯＋藥局']++;H[r.b]['後場']++;
    }else{
     fillPartial(r,avail);
-    warn.push(`${label}：兩人配置不符合限制，已盡量排入，請手動確認`);
+    warn.push(`${label}：兩人配置（需一人櫃檯＋藥局、一人後場）不成立：${whyText(avail)}，已盡量排入，請手動確認`);
    }
   }else if(avail.length===1){
    fillPartial(r,avail);
@@ -1579,7 +1930,7 @@ function run(){
   // 任何上班人員都不能憑空消失：沒有排進櫃／藥／後的人，一律列在「備」
   const placed=new Set([r.c,r.ph,r.b,r.combo].filter(Boolean));
   noteLast(r);
-  r.extras=avail.filter(x=>!placed.has(x));
+  recomputeExtras(r);
   // 完全沒有勾選上班人員則略過不警告
   R.push(r);
  }
@@ -1588,7 +1939,7 @@ function run(){
  R.forEach(r=>{if(r.extras&&r.extras.length)info.push(`${dayLabel(r.d)}${S[r.s]}：${r.extras.join('、')}`)});
  renderSheet();
  document.getElementById('msg').innerHTML=warn.length?`<b style="color:#b42318">⚠️ ${warn.join('；')}</b>`:`<b style="color:#16803c">✅ 完成！行政人員已排除，其餘人員已依限制與歷史次數優先補滿三個崗位。</b>`;
- if(info.length)document.getElementById('msg').innerHTML+=`<div style="margin-top:6px">ℹ️ 以下診次上班人數超過三個崗位，多出的人員已列在崗位表「備」列：${info.join('；')}</div>`;
+ if(info.length)document.getElementById('msg').innerHTML+=`<div style="margin-top:6px">ℹ️ 以下診次有人沒排進櫃檯／藥局／後場（人數超過三個崗位，或該人員設定為僅行政），已列在崗位表「備」列：${info.join('；')}</div>`;
 
  if(SUPLIST.length){
   const C=countFromSheet();
@@ -1603,17 +1954,8 @@ document.getElementById('pdfInput').addEventListener('change',e=>{
  importPDF(f);
  e.target.value='';
 });
-document.getElementById('imgInput').addEventListener('change',e=>{
- const file=e.target.files[0]; if(!file)return;
- const img=document.getElementById('preview');
- img.src=URL.createObjectURL(file);img.style.display='block';
-});
-function togglePreview(){
- const img=document.getElementById('preview');
- if(!img.src){alert('請先選擇班表圖片');return;}
- img.style.display=(img.style.display==='none')?'block':'none';
-}
 init();
+renderRolePanel();
 renderSheet();
 refreshDraftUI();
 </script>
